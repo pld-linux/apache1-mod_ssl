@@ -251,7 +251,7 @@ fi
 %attr(640,root,root) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/*.conf
 %attr(640,root,root) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/server.crt
 %attr(640,root,root) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/server.key
-%attr(640,root,root) %config(noreplace) /etc/logrotate.d/*
+%attr(640,root,root) %config(noreplace) %verify(not size mtime md5)  /etc/logrotate.d/*
 
 %attr(755,root,root) %{_pkglibdir}/libssl.so
 
