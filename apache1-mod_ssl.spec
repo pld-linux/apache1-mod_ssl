@@ -1,4 +1,4 @@
-%define		SSLVER 2.8.12
+%define		SSLVER 2.8.13
 %define		APACHEVER 1.3.27
 %define 	apxs	/usr/sbin/apxs
 Summary:	An SSL module for the Apache Web server
@@ -33,9 +33,9 @@ Patch1:		mod_ssl-cca-openssl-path.patch
 Patch2:		mod_ssl-db3.patch
 URL:		http://www.modssl.org/
 BuildRequires:	apache1(EAPI)-devel = %{APACHEVER}
+BuildRequires:	db-devel >= 4.1
 BuildRequires:	openssl-devel >= 0.9.7
 BuildRequires:	openssl-tools >= 0.9.7
-BuildRequires:	db-devel >= 4.1
 BuildRequires:	%{apxs}
 Requires(post,preun):	apache
 Requires(post,preun):	grep
