@@ -37,6 +37,9 @@ BuildRequires:	openssl-devel >= 0.9.6a
 BuildRequires:	openssl-tools >= 0.9.6a
 BuildRequires:	db3-devel
 BuildRequires:	%{apxs}
+Requires(post,preun):	apache
+Requires(post,preun):	grep
+Requires(preun):	fileutils
 Requires:	apache(EAPI) >= %{APACHEVER}
 Provides:	mod_ssl
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -123,6 +126,7 @@ Summary:	Strong Extranet module for mod_ssl and apache
 Summary(fr):	Module d'Extranet Fort pour Apache et mod_ssl
 Summary(pl):	Modu³ Strong Extranet dla pakietu mod_ssl i serwera WWW Apache
 Group:		Networking/Daemons
+Requires(post,preun):	%{apxs}
 Requires:	apache(EAPI) >= %{APACHEVER}
 
 %description -n apache-mod_sxnet
@@ -182,9 +186,12 @@ mv -f pkg.ssldoc ssl-doc
 
 install %{SOURCE4} sxnet.html
 
+%clean
+rm -rf $RPM_BUILD_ROOT
+
 %post
 if [ -f %{_sysconfdir}/httpd/httpd.conf ] && \
-   ! grep -q "^Include.*/mod_ssl.conf" %{_sysconfdir}/httpd/httpd.conf; then
+    ! grep -q "^Include.*/mod_ssl.conf" %{_sysconfdir}/httpd/httpd.conf; then
 	echo "Include /etc/httpd/mod_ssl.conf" >> %{_sysconfdir}/httpd/httpd.conf
 fi
 if [ -f /var/lock/subsys/httpd ]; then
@@ -195,6 +202,7 @@ fi
 
 %preun
 if [ "$1" = "0" ]; then
+	umask 027
 	grep -E -v "^Include.*mod_ssl.conf" %{_sysconfdir}/httpd/httpd.conf > \
 		%{_sysconfdir}/httpd/httpd.conf.tmp
 	mv -f %{_sysconfdir}/httpd/httpd.conf.tmp %{_sysconfdir}/httpd/httpd.conf
@@ -204,14 +212,14 @@ if [ "$1" = "0" ]; then
 fi
 
 %post -n apache-mod_sxnet
-/usr/sbin/apxs -e -a -n sxnet %{_pkglibdir}/mod_sxnet.so 1>&2
+%{apxs} -e -a -n sxnet %{_pkglibdir}/mod_sxnet.so 1>&2
 if [ -f /var/lock/subsys/httpd ]; then
 	/etc/rc.d/init.d/httpd restart 1>&2
 fi
 
 %preun -n apache-mod_sxnet
 if [ "$1" = "0" ]; then
-	/usr/sbin/apxs -e -A -n sxnet %{_pkglibdir}/mod_sxnet.so 1>&2
+	%{apxs} -e -A -n sxnet %{_pkglibdir}/mod_sxnet.so 1>&2
 	if [ -f /var/lock/subsys/httpd ]; then
 		/etc/rc.d/init.d/httpd restart 1>&2
 	fi
@@ -235,6 +243,3 @@ fi
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_pkglibdir}/mod_sxnet.so
 %doc sxnet.html
-
-%clean
-rm -rf $RPM_BUILD_ROOT
