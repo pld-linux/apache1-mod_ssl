@@ -1,5 +1,5 @@
-%define		SSLVER 2.8.5
-%define		APACHEVER 1.3.22
+%define		SSLVER 2.8.6
+%define		APACHEVER 1.3.23
 Summary:	An SSL module for the Apache Web server
 Summary(de):	SSL-Modul fuer den Apache-Webserver
 Summary(fr):	Un module SSL pour le serveur Web Apache
