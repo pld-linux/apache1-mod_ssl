@@ -104,7 +104,7 @@ export SSL_BASE
 cd pkg.contrib
 tar xvf sxnet.tar
 cd sxnet
-apxs -I%{_includedir}/openssl/ -L%{_libdir} -l ssl -l crypto -c mod_sxnet.c
+/usr/sbin/apxs -I%{_includedir}/openssl/ -L%{_libdir} -l ssl -l crypto -c mod_sxnet.c
 
 %install
 rm -rf $RPM_BUILD_ROOT
