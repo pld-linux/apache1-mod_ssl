@@ -20,7 +20,7 @@ Summary(sv):	Kryptografistöd till webbservern Apache
 Summary(uk):	íÏÄÕÌØ Ð¦ÄÔÒÉÍËÉ SSL × Apache
 Name:		apache-mod_ssl
 Version:	%{SSLVER}_%{APACHEVER}
-Release:	1
+Release:	2
 License:	BSD
 Group:		Networking/Daemons
 Source0:	http://www.modssl.org/source/mod_ssl-%{SSLVER}-%{APACHEVER}.tar.gz
@@ -35,8 +35,8 @@ Patch2:		mod_ssl-db3.patch
 URL:		http://www.modssl.org/
 BuildRequires:	apache(EAPI)-devel = %{APACHEVER}
 BuildRequires:	db3-devel
-BuildRequires:	openssl-devel >= 0.9.6j
-BuildRequires:	openssl-tools >= 0.9.6j
+BuildRequires:	openssl-devel >= 0.9.6k
+BuildRequires:	openssl-tools >= 0.9.6k
 BuildRequires:	%{apxs}
 Requires(post,preun):	apache
 Requires(post,preun):	grep
