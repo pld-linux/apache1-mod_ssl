@@ -11,7 +11,7 @@ Summary(id):	Interpreter Perl untuk web server Apache
 Summary(is):	Perl túlkur fyrir Apache vefşjóninn
 Summary(it):	Supporto di crittografia per il server Web Apache
 Summary(ja):	Apache Web ¥µ¡¼¥Ğ¡¼ÍÑ¤Î°Å¹æ¥µ¥İ¡¼¥È
-Summary(no):	Krypteringsstøtte for webtjeneren Apache
+Summary(nb):	Krypteringsstøtte for webtjeneren Apache
 Summary(pl):	Modu³ SSL dla serwera WWW Apache
 Summary(pt):	O suporte de cifra para o servidor Web Apache
 Summary(ru):	íÏÄÕÌØ ĞÏÄÄÅÒÖËÉ SSL × Apache
