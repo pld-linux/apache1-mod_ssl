@@ -1,5 +1,5 @@
-%define		SSLVER 2.8.5
-%define		APACHEVER 1.3.22
+%define		SSLVER 2.8.6
+%define		APACHEVER 1.3.23
 Summary:	An SSL module for the Apache Web server
 Summary(de):	SSL-Modul fuer den Apache-Webserver
 Summary(fr):	Un module SSL pour le serveur Web Apache
@@ -9,8 +9,13 @@ Version:	%{SSLVER}_%{APACHEVER}
 Release:	1
 License:	BSD
 Group:		Networking/Daemons
+Group(cs):	Sí»ové/Démoni
 Group(de):	Netzwerkwesen/Server
+Group(es):	Red/Servidores
+Group(fr):	Réseau/Serveurs
 Group(pl):	Sieciowe/Serwery
+Group(pt):	Rede/Servidores
+Group(ru):	óÅÔÅ×ÙÅ/äÅÍÏÎÙ
 Source0:	http://www.modssl.org/source/mod_ssl-%{SSLVER}-%{APACHEVER}.tar.gz
 Source1:	%{name}.conf
 Source2:	%{name}-server.crt
@@ -70,8 +75,13 @@ Summary:	Strong Extranet module for mod_ssl and apache
 Summary(fr):	Module d'Extranet Fort pour Apache et mod_ssl
 Summary(pl):	Modu³ Strong Extranet dla pakietu mod_ssl i webserwera Apache
 Group:		Networking/Daemons
+Group(cs):	Sí»ové/Démoni
 Group(de):	Netzwerkwesen/Server
+Group(es):	Red/Servidores
+Group(fr):	Réseau/Serveurs
 Group(pl):	Sieciowe/Serwery
+Group(pt):	Rede/Servidores
+Group(ru):	óÅÔÅ×ÙÅ/äÅÍÏÎÙ
 Requires:	apache(EAPI) >= %{APACHEVER}
 
 %description -n apache-mod_sxnet
