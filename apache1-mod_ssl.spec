@@ -69,7 +69,7 @@ make
 cd pkg.contrib
 tar xvf sxnet.tar
 cd sxnet
-apxs -I/usr/include/openssl/ -L/usr/lib -l ssl -l crypto -c mod_sxnet.c
+/usr/sbin/apxs -I/usr/include/openssl/ -L/usr/lib -l ssl -l crypto -c mod_sxnet.c
 
 %install
 rm -rf $RPM_BUILD_ROOT
