@@ -1,12 +1,12 @@
-%define		SSLVER 2.7.1
-%define		APACHEVER 1.3.14
+%define		SSLVER 2.8.0
+%define		APACHEVER 1.3.17
 Summary:	An SSL module for the Apache Web server
 Summary(de):	SSL-Modul fuer den Apache-Webserver
 Summary(fr):	Un module SSL pour le serveur Web Apache
 Summary(pl):	Modu³ SSL dla webserwera Apache
 Name:		apache-mod_ssl
 Version:	%{SSLVER}_%{APACHEVER}
-Release:	2
+Release:	1
 Group:		Networking/Daemons
 Group(de):	Netzwerkwesen/Server
 Group(pl):	Sieciowe/Serwery
