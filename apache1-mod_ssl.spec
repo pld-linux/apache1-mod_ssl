@@ -6,7 +6,7 @@ Summary(fr):	Un module SSL pour le serveur Web Apache
 Summary(pl):	Modu³ SSL dla webserwera Apache
 Name:		apache-mod_ssl
 Version:	%{SSLVER}_%{APACHEVER}
-Release:	3
+Release:	4
 License:	BSD
 Group:		Networking/Daemons
 Group(de):	Netzwerkwesen/Server
@@ -16,6 +16,7 @@ Source1:	%{name}.conf
 Source2:	%{name}-server.crt
 Source3:	%{name}-server.key
 Source4:	%{name}-sxnet.html
+Source5:	%{name}.logrotate
 Patch0:		mod_ssl-db3.patch
 Patch1:		mod_ssl-cca-openssl-path.patch
 URL:		http://www.modssl.org/
@@ -112,7 +113,7 @@ cd sxnet
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_libdir}/mod_ssl,%{_pkglibdir}} \
 	$RPM_BUILD_ROOT%{_sysconfdir}/httpd \
-	$RPM_BUILD_ROOT/home/httpd/html/docs
+	$RPM_BUILD_ROOT/etc/logrotate.d
 
 install pkg.sslmod/libssl.so $RPM_BUILD_ROOT%{_pkglibdir}
 install pkg.contrib/sxnet/mod_sxnet.so $RPM_BUILD_ROOT%{_pkglibdir}
@@ -121,16 +122,11 @@ install pkg.contrib/*.sh $RPM_BUILD_ROOT%{_libdir}/mod_ssl
 install %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/httpd/mod_ssl.conf
 install %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/httpd/server.crt
 install %{SOURCE3} $RPM_BUILD_ROOT%{_sysconfdir}/httpd/server.key
+install %{SOURCE5} $RPM_BUILD_ROOT/etc/logrotate.d/apache-mod_ssl
 
 mv -f pkg.ssldoc ssl-doc
-ln -sf %{_docdir}/%{name}-%{version}/ssl-doc \
-        $RPM_BUILD_ROOT/home/httpd/html/docs/ssl-doc
 
 install %{SOURCE4} sxnet.html
-ln -sf %{_docdir}/%{name}-%{version}/sxnet.html \
-        $RPM_BUILD_ROOT/home/httpd/html/docs/sxnet.html
-
-strip --strip-unneeded $RPM_BUILD_ROOT%{_pkglibdir}/*.so
 
 gzip -9nf ANNOUNCE CHANGES CREDITS NEWS README*
 
@@ -145,12 +141,14 @@ else
         echo "Run \"/etc/rc.d/init.d/httpd start\" to start apache http daemon."
 fi
 
-%postun
-grep -E -v "^Include.*mod_ssl.conf" /etc/httpd/httpd.conf > \
-	/etc/httpd/httpd.conf.tmp
-mv -f /etc/httpd/httpd.conf.tmp /etc/httpd/httpd.conf
-if [ -f /var/lock/subsys/httpd ]; then
-        /etc/rc.d/init.d/httpd restart 1>&2
+%preun
+if [ "$1" = "0" ]; then
+	grep -E -v "^Include.*mod_ssl.conf" %{_sysconfdir}/httpd/httpd.conf > \
+		%{_sysconfdir}/httpd/httpd.conf.tmp
+	mv -f %{_sysconfdir}/httpd/httpd.conf.tmp %{_sysconfdir}/httpd/httpd.conf
+	if [ -f /var/lock/subsys/httpd ]; then
+	        /etc/rc.d/init.d/httpd restart 1>&2
+	fi
 fi
 
 %files
@@ -158,9 +156,9 @@ fi
 %attr(640,root,root) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/httpd/mod_ssl.conf
 %attr(640,root,root) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/httpd/server.crt
 %attr(640,root,root) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/httpd/server.key
+%attr(640,root,root) %config(noreplace) /etc/logrotate.d/*
 %doc *.gz
 %doc ssl-doc
-%doc /home/httpd/html/docs/ssl-doc
 
 %attr(755,root,root) %{_pkglibdir}/libssl.so
 
@@ -171,7 +169,6 @@ fi
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_pkglibdir}/mod_sxnet.so
 %doc sxnet.html
-%doc /home/httpd/html/docs/sxnet.html
 
 %clean
 rm -rf $RPM_BUILD_ROOT
