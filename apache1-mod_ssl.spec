@@ -1,6 +1,6 @@
-%define		SSLVER 2.4.6
-%define		APACHEVER 1.3.9
-Summary:	An SSL module for the Apache Web server.
+%define		SSLVER 2.6.2
+%define		APACHEVER 1.3.12
+Summary:	An SSL module for the Apache Web server
 Summary(de):	SSL-Modul fuer den Apache-Webserver
 Summary(fr):	Un module SSL pour le serveur Web Apache
 Name:		apache-mod_ssl
@@ -9,12 +9,13 @@ Release:	1
 Group:		System Environment/Daemons
 Copyright:	BSD
 Source0:	http://www.modssl.org/source/mod_ssl-%{SSLVER}-%{APACHEVER}.tar.gz
-Source1:	httpd.conf.ssl
-Source2:	server.crt
-Source3:	server.key
-Source4:	sxnet.html
+Source1:	apache-mod_ssl.conf
+Source2:	apache-mod_ssl-server.crt
+Source3:	apache-mod_ssl-server.key
+Source4:	apache-mod_ssl-sxnet.html
 URL:		http://www.modssl.org/
-Requires:	apache = 1.3.9
+BuildRequires:	apache(EAPI)-devel = 1.3.12
+Requires:	apache(EAPI) = 1.3.12
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -45,7 +46,7 @@ base sur SSLeay d'Eric A. Young et Tim J. Hudson.
 Summary:	Strong Extranet module for mod_ssl and apache
 Summary(fr):	Module d'Extranet Fort pour Apache et mod_ssl
 Group:		System Environment/Daemons
-Requires:	apache = 1.3.9
+Requires:	apache = %{APACHEVER}
 
 %description -n apache-mod_sxnet
 The Strong Extranet allows you to use digital certificates to authenticate
@@ -62,8 +63,13 @@ Thawte Personal Cert System.
 %setup -q -n mod_ssl-%{SSLVER}-%{APACHEVER}
 
 %build
-export SSL_BASE=SYSTEM
-CFLAGS="$RPM_OPT_FLAGS" ./configure --with-apxs=/usr/sbin/apxs
+SSL_BASE=SYSTEM
+LDFLAGs="-s"
+export SSL_BASE LDFLAGS
+%configure \
+	--with-apxs=/usr/sbin/apxs \
+	--enable-shared=ssl \
+	--with-ssl=/usr
 make
 
 cd pkg.contrib
@@ -73,38 +79,39 @@ cd sxnet
 
 %install
 rm -rf $RPM_BUILD_ROOT
-mkdir -p $RPM_BUILD_ROOT%{_libdir}/apache
+install -d $RPM_BUILD_ROOT%{_libdir}/{apache,mod_ssl} \
+	$RPM_BUILD_ROOT/etc/httpd/conf \
+	$RPM_BUILD_ROOT/home/httpd/html/{ssl-doc,sxnet}
 
 install pkg.sslmod/libssl.so $RPM_BUILD_ROOT/usr/lib/apache
 install pkg.contrib/sxnet/mod_sxnet.so $RPM_BUILD_ROOT/usr/lib/apache
-mkdir -p $RPM_BUILD_ROOT/usr/local/ssl/mod_ssl
-install pkg.contrib/*.sh $RPM_BUILD_ROOT/usr/local/ssl/mod_ssl
-mkdir -p $RPM_BUILD_ROOT/etc/httpd/conf
-install $RPM_SOURCE_DIR/httpd.conf.ssl $RPM_BUILD_ROOT/etc/httpd/conf
-install $RPM_SOURCE_DIR/server.crt $RPM_BUILD_ROOT/etc/httpd/conf
-install $RPM_SOURCE_DIR/server.key $RPM_BUILD_ROOT/etc/httpd/conf
-mkdir -p $RPM_BUILD_ROOT/home/httpd/html/ssl-doc
+
+install pkg.contrib/*.sh $RPM_BUILD_ROOT%{_libdir}/mod_ssl
+install %{SOURCE1} $RPM_BUILD_ROOT/etc/httpd/conf/mod_ssl.conf
+install %{SOURCE2} $RPM_BUILD_ROOT/etc/httpd/conf/server.crt
+install %{SOURCE3} $RPM_BUILD_ROOT/etc/httpd/conf/server.key
 install $RPM_BUILD_DIR/mod_ssl-%{SSLVER}-%{APACHEVER}/pkg.ssldoc/* $RPM_BUILD_ROOT/home/httpd/html/ssl-doc 
-mkdir -p $RPM_BUILD_ROOT/home/httpd/html/sxnet
-install $RPM_SOURCE_DIR/sxnet.html $RPM_BUILD_ROOT/home/httpd/html/sxnet/index.html
+install %{SOURCE4} $RPM_BUILD_ROOT/home/httpd/html/sxnet/index.html
+
+strip --strip-unneeded $RPM_BUILD_ROOT%{_libdir}/apache/*.so
 
 gzip -9nf ANNOUNCE CHANGES CREDITS NEWS README*
 
 %post
-if [ -f /etc/httpd/conf/httpd.conf ] && ! grep -q "^Include.*httpd.conf.ssl" /etc/httpd/conf/httpd.conf; then
-    echo "Include conf/httpd.conf.ssl" >> /etc/httpd/conf/httpd.conf
+if [ -f /etc/httpd/conf/httpd.conf ] && ! grep -q "^Include.*/mod_ssl.conf" /etc/httpd/conf/httpd.conf; then
+	echo "Include mod_ssl.conf" >> /etc/httpd/conf/httpd.conf
 fi
 /etc/rc.d/init.d/httpd restart
 
 %postun
-grep -v -q "^Include.*httpd.conf.ssl" /etc/httpd/conf/httpd.conf > \
+grep -v -q "^Include.*mod_ssl.conf" /etc/httpd/conf/httpd.conf > \
 	/etc/httpd/conf/httpd.conf.tmp
 mv /etc/httpd/conf/httpd.conf.tmp /etc/httpd/conf/httpd.conf
 /etc/rc.d/init.d/httpd restart
 
 %files
 %defattr(644,root,root,755)
-%config(noreplace) /etc/httpd/conf/httpd.conf.ssl
+%config(noreplace) /etc/httpd/conf/mod_ssl.conf
 %config(noreplace) /etc/httpd/conf/server.crt
 %config(noreplace) /etc/httpd/conf/server.key
 %doc *.gz
@@ -113,7 +120,7 @@ mv /etc/httpd/conf/httpd.conf.tmp /etc/httpd/conf/httpd.conf
 
 %attr(755,root,root) %{_libdir}/apache/libssl.so
 
-/usr/local/ssl/mod_ssl/*.sh
+%{_libdir}/mod_ssl/*.sh
 
 %files -n apache-mod_sxnet
 %attr(755,root,root) %{_libdir}/apache/mod_sxnet.so
