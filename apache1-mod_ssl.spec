@@ -98,7 +98,7 @@ Layer) e i\n" "protocolli TLS (Transport Layer Security)."
 ¥µ¡¼¥Ð¡¼ÍÑ¤Î¶¯ÎÏ¤Ê°Å¹æ²½\n" "µ¡Ç½¤òÄó¶¡¤·¤Þ¤¹¡£"
 
 %description -l pl
-Projekt mod_ssl ma za zadanie zapewniæ serwerowi www Apache 1.3 wysoki
+Projekt mod_ssl ma za zadanie zapewniæ serwerowi WWW Apache 1.3 wysoki
 poziom szyfrowania dziêki protoko³om Secure Sockets Layer (SSL v2/v3)
 i Transport Layer Security (TLS v1) przy pomocy pakiety narzêdziowego
 Open Source SSL/TSL -- OpenSSL, stworzonego na podstawie SSLeay Erica
@@ -158,7 +158,7 @@ travers le Thawte Personal Cert System.
 
 %description -n apache1-mod_sxnet -l pl
 Pakiet Strong Extranet umo¿liwia u¿ywanie cyfrowych certyfikatów dla
-uwierzytelniania u¿ytkowników serwera www. Zwykle u¿ytkownicy
+uwierzytelniania u¿ytkowników serwera WWW. Zwykle u¿ytkownicy
 rejestruj± siê pod opiek± administratora poprzez Thawte Personal Cert
 System.
 
