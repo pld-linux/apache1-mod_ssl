@@ -1,12 +1,12 @@
-%define		SSLVER 2.8.0
-%define		APACHEVER 1.3.17
+%define		SSLVER 2.8.3
+%define		APACHEVER 1.3.19
 Summary:	An SSL module for the Apache Web server
 Summary(de):	SSL-Modul fuer den Apache-Webserver
 Summary(fr):	Un module SSL pour le serveur Web Apache
 Summary(pl):	Modu³ SSL dla webserwera Apache
 Name:		apache-mod_ssl
 Version:	%{SSLVER}_%{APACHEVER}
-Release:	4
+Release:	1
 License:	BSD
 Group:		Networking/Daemons
 Group(de):	Netzwerkwesen/Server
@@ -21,8 +21,8 @@ Patch0:		mod_ssl-db3.patch
 Patch1:		mod_ssl-cca-openssl-path.patch
 URL:		http://www.modssl.org/
 BuildRequires:	apache(EAPI)-devel = %{APACHEVER}
-BuildRequires:	openssl-devel
-BuildRequires:	openssl-tools
+BuildRequires:	openssl-devel > 0.9.6a
+BuildRequires:	openssl-tools >= 0.9.6a
 BuildRequires:	db3-devel
 BuildRequires:	apache(EAPI)-devel = %{APACHEVER}
 Requires:	apache(EAPI) >= %{APACHEVER}
