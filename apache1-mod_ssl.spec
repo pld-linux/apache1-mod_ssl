@@ -21,7 +21,7 @@ Summary(sv):	Kryptografistöd till webbservern Apache
 Summary(uk):	íÏÄÕÌØ Ð¦ÄÔÒÉÍËÉ SSL × Apache
 Name:		apache1-mod_%{mod_name}
 Version:	%{SSLVER}_%{APACHEVER}
-Release:	1
+Release:	1.7
 License:	BSD
 Group:		Networking/Daemons
 Source0:	http://www.modssl.org/source/mod_%{mod_name}-%{SSLVER}-%{APACHEVER}.tar.gz
@@ -37,6 +37,7 @@ Patch3:		%{name}-nohttpd.patch
 URL:		http://www.modssl.org/
 BuildRequires:	%{apxs}
 BuildRequires:	apache1-devel = %{APACHEVER}
+BuildRequires:	apache1-devel >= 1.3.33-2
 BuildRequires:	db-devel >= 4.1
 BuildRequires:	openssl-devel >= 0.9.7d
 BuildRequires:	openssl-tools >= 0.9.7d
@@ -45,6 +46,7 @@ Requires(post,preun):	apache1
 Requires(post,preun):	grep
 Requires(preun):	fileutils
 Requires:	apache1 >= %{APACHEVER}
+Conflicts:	apache1 < 1.3.33-2
 Obsoletes:	mod_ssl
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -189,21 +191,23 @@ cd sxnet
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_libdir}/mod_%{mod_name},%{_pkglibdir}} \
 	$RPM_BUILD_ROOT%{_includedir}/apache1 \
-	$RPM_BUILD_ROOT%{_sysconfdir} \
+	$RPM_BUILD_ROOT%{_sysconfdir}/conf.d \
 	$RPM_BUILD_ROOT/etc/logrotate.d
 
 install pkg.sslmod/libssl.so $RPM_BUILD_ROOT%{_pkglibdir}
 install pkg.contrib/sxnet/mod_sxnet.so $RPM_BUILD_ROOT%{_pkglibdir}
 
 install pkg.contrib/*.sh $RPM_BUILD_ROOT%{_libdir}/mod_%{mod_name}
-install %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/mod_%{mod_name}.conf
+install %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/conf.d/40_mod_%{mod_name}.conf
 install %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/server.crt
 install %{SOURCE3} $RPM_BUILD_ROOT%{_sysconfdir}/server.key
 install %{SOURCE5} $RPM_BUILD_ROOT/etc/logrotate.d/apache-mod_%{mod_name}
 
-mv -f pkg.ssldoc ssl-doc
+cp -a pkg.ssldoc ssl-doc
 
 install %{SOURCE4} sxnet.html
+CFG="$RPM_BUILD_ROOT%{_sysconfdir}/conf.d"
+echo "LoadModule sxnet_module	modules/mod_sxnet.so" > $CFG/41_mod_sxnet.conf
 
 install pkg.sslmod/*.h $RPM_BUILD_ROOT%{_includedir}/apache1
 
@@ -211,10 +215,6 @@ install pkg.sslmod/*.h $RPM_BUILD_ROOT%{_includedir}/apache1
 rm -rf $RPM_BUILD_ROOT
 
 %post
-if [ -f %{_sysconfdir}/apache.conf ] && \
-	! grep -q "^Include.*/mod_%{mod_name}.conf" %{_sysconfdir}/apache.conf; then
-	echo "Include %{_sysconfdir}/mod_%{mod_name}.conf" >> %{_sysconfdir}/apache.conf
-fi
 if [ -f /var/lock/subsys/apache ]; then
 	/etc/rc.d/init.d/apache restart 1>&2
 else
@@ -223,24 +223,23 @@ fi
 
 %preun
 if [ "$1" = "0" ]; then
-	umask 027
-	grep -E -v "^Include.*mod_%{mod_name}.conf" %{_sysconfdir}/apache.conf > \
-		%{_sysconfdir}/apache.conf.tmp
-	mv -f %{_sysconfdir}/apache.conf.tmp %{_sysconfdir}/apache.conf
 	if [ -f /var/lock/subsys/apache ]; then
 		/etc/rc.d/init.d/apache restart 1>&2
 	fi
 fi
 
+%triggerpostun -- apache1-mod_ssl < 2.8.22_1.3.33-1.7
+sed -i -e '
+	s,^Include.*mod_ssl.conf,Include %{_sysconfdir}/conf.d/*_mod_ssl.conf,
+' /etc/apache/apache.conf
+
 %post -n apache1-mod_sxnet
-%{apxs} -e -a -n sxnet %{_pkglibdir}/mod_sxnet.so 1>&2
 if [ -f /var/lock/subsys/apache ]; then
 	/etc/rc.d/init.d/apache restart 1>&2
 fi
 
 %preun -n apache1-mod_sxnet
 if [ "$1" = "0" ]; then
-	%{apxs} -e -A -n sxnet %{_pkglibdir}/mod_sxnet.so 1>&2
 	if [ -f /var/lock/subsys/apache ]; then
 		/etc/rc.d/init.d/apache restart 1>&2
 	fi
@@ -249,7 +248,7 @@ fi
 %files
 %defattr(644,root,root,755)
 %doc ANNOUNCE CHANGES CREDITS NEWS README* ssl-doc
-%attr(640,root,root) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/*.conf
+%attr(640,root,root) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/conf.d/*_mod_ssl.conf
 %attr(640,root,root) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/server.crt
 %attr(640,root,root) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/server.key
 %attr(640,root,root) %config(noreplace) %verify(not size mtime md5) /etc/logrotate.d/*
@@ -266,4 +265,5 @@ fi
 %files -n apache1-mod_sxnet
 %defattr(644,root,root,755)
 %doc sxnet.html
+%attr(640,root,root) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/conf.d/*_mod_sxnet.conf
 %attr(755,root,root) %{_pkglibdir}/mod_sxnet.so
