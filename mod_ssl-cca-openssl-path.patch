@@ -1,0 +1,12 @@
+diff -Naur mod_ssl-2.7.1-1.3.14/pkg.contrib/cca.sh mod_ssl-2.7.1-1.3.14-p/pkg.contrib/cca.sh
+--- mod_ssl-2.7.1-1.3.14/pkg.contrib/cca.sh	Thu Dec 30 22:12:10 1999
++++ mod_ssl-2.7.1-1.3.14-p/pkg.contrib/cca.sh	Fri Jan  5 17:04:23 2001
+@@ -5,7 +5,7 @@
+ ##
+ 
+ #   external tools
+-openssl="/usr/local/ssl/bin/openssl"
++openssl="openssl"
+ 
+ #   some optional terminal sequences
+ case $TERM in
