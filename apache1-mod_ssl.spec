@@ -34,9 +34,9 @@ Patch1:		mod_ssl-cca-openssl-path.patch
 Patch2:		mod_ssl-db3.patch
 URL:		http://www.modssl.org/
 BuildRequires:	apache(EAPI)-devel = %{APACHEVER}
+BuildRequires:	db3-devel
 BuildRequires:	openssl-devel >= 0.9.6j
 BuildRequires:	openssl-tools >= 0.9.6j
-BuildRequires:	db3-devel
 BuildRequires:	%{apxs}
 Requires(post,preun):	apache
 Requires(post,preun):	grep
@@ -228,12 +228,11 @@ fi
 						
 %files
 %defattr(644,root,root,755)
+%doc ANNOUNCE CHANGES CREDITS NEWS README* ssl-doc
 %attr(640,root,root) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/httpd/mod_ssl.conf
 %attr(640,root,root) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/httpd/server.crt
 %attr(640,root,root) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/httpd/server.key
 %attr(640,root,root) %config(noreplace) /etc/logrotate.d/*
-%doc ANNOUNCE CHANGES CREDITS NEWS README*
-%doc ssl-doc
 
 %attr(755,root,root) %{_pkglibdir}/libssl.so
 
