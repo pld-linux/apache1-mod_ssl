@@ -164,6 +164,7 @@ fi
 
 %attr(755,root,root) %{_pkglibdir}/libssl.so
 
+%dir %{_libdir}/mod_ssl
 %attr(755,root,root) %{_libdir}/mod_ssl/*.sh
 
 %files -n apache-mod_sxnet
