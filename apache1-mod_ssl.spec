@@ -195,9 +195,9 @@ if [ -f %{_sysconfdir}/httpd/httpd.conf ] && \
 	echo "Include /etc/httpd/mod_ssl.conf" >> %{_sysconfdir}/httpd/httpd.conf
 fi
 if [ -f /var/lock/subsys/httpd ]; then
-        /etc/rc.d/init.d/httpd restart 1>&2
+	/etc/rc.d/init.d/httpd restart 1>&2
 else
-        echo "Run \"/etc/rc.d/init.d/httpd start\" to start apache http daemon."
+	echo "Run \"/etc/rc.d/init.d/httpd start\" to start apache http daemon."
 fi
 
 %preun
@@ -207,7 +207,7 @@ if [ "$1" = "0" ]; then
 		%{_sysconfdir}/httpd/httpd.conf.tmp
 	mv -f %{_sysconfdir}/httpd/httpd.conf.tmp %{_sysconfdir}/httpd/httpd.conf
 	if [ -f /var/lock/subsys/httpd ]; then
-	        /etc/rc.d/init.d/httpd restart 1>&2
+		/etc/rc.d/init.d/httpd restart 1>&2
 	fi
 fi
 
