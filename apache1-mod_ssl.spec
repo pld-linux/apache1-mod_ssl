@@ -8,13 +8,14 @@ Name:		apache-mod_ssl
 Version:	%{SSLVER}_%{APACHEVER}
 Release:	1
 Group:		Networking/Daemons
+Group(de):	Netzwerkwesen/Server
 Group(pl):	Sieciowe/Serwery
 License:	BSD
 Source0:	http://www.modssl.org/source/mod_ssl-%{SSLVER}-%{APACHEVER}.tar.gz
-Source1:	apache-mod_ssl.conf
-Source2:	apache-mod_ssl-server.crt
-Source3:	apache-mod_ssl-server.key
-Source4:	apache-mod_ssl-sxnet.html
+Source1:	%{name}.conf
+Source2:	%{name}-server.crt
+Source3:	%{name}-server.key
+Source4:	%{name}-sxnet.html
 URL:		http://www.modssl.org/
 BuildRequires:	apache(EAPI)-devel = %{APACHEVER}
 BuildRequires:	openssl-devel
@@ -62,6 +63,7 @@ Summary:	Strong Extranet module for mod_ssl and apache
 Summary(fr):	Module d'Extranet Fort pour Apache et mod_ssl
 Summary(pl):	Modu³ Strong Extranet dla pakietu mod_ssl i webserwera Apache
 Group:		Networking/Daemons
+Group(de):	Netzwerkwesen/Server
 Group(pl):	Sieciowe/Serwery
 Requires:	apache = %{APACHEVER}
 
@@ -88,8 +90,7 @@ System.
 
 %build
 SSL_BASE=SYSTEM
-LDFLAGs="-s"
-export SSL_BASE LDFLAGS
+export SSL_BASE 
 %configure \
 	--with-apxs=%{_sbindir}/apxs \
 	--enable-shared=ssl \
@@ -99,7 +100,7 @@ export SSL_BASE LDFLAGS
 cd pkg.contrib
 tar xvf sxnet.tar
 cd sxnet
-/usr/sbin/apxs -I%{_includedir}/openssl/ -L%{_libdir} -l ssl -l crypto -c mod_sxnet.c
+apxs -I%{_includedir}/openssl/ -L%{_libdir} -l ssl -l crypto -c mod_sxnet.c
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -115,7 +116,7 @@ install %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/httpd/mod_ssl.conf
 install %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/httpd/server.crt
 install %{SOURCE3} $RPM_BUILD_ROOT%{_sysconfdir}/httpd/server.key
 
-mv pkg.ssldoc ssl-doc
+mv -f pkg.ssldoc ssl-doc
 ln -sf %{_docdir}/%{name}-%{version}/ssl-doc \
         $RPM_BUILD_ROOT/home/httpd/html/docs/ssl-doc
 
@@ -141,7 +142,7 @@ fi
 %postun
 grep -E -v "^Include.*mod_ssl.conf" /etc/httpd/httpd.conf > \
 	/etc/httpd/httpd.conf.tmp
-mv /etc/httpd/httpd.conf.tmp /etc/httpd/httpd.conf
+mv -f /etc/httpd/httpd.conf.tmp /etc/httpd/httpd.conf
 if [ -f /var/lock/subsys/httpd ]; then
         /etc/rc.d/init.d/httpd restart 1>&2
 fi
