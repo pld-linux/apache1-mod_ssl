@@ -19,6 +19,8 @@ BuildRequires:	openssl-devel
 Requires:	apache(EAPI) = 1.3.12
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
+%define		_pkglibdir	%(/usr/sbin/apxs -q LIBEXECDIR)
+
 %description
 The mod_ssl project provides strong cryptography for the Apache 1.3 webserver 
 via the Secure Sockets Layer (SSL v2/v3) and Transport Layer Security (TLS v1) 
@@ -80,12 +82,12 @@ cd sxnet
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT%{_libdir}/{apache,mod_ssl} \
+install -d $RPM_BUILD_ROOT{%{_libdir}/mod_ssl,%{_pkglibdir}} \
 	$RPM_BUILD_ROOT/etc/httpd \
 	$RPM_BUILD_ROOT/home/httpd/html/{ssl-doc,sxnet}
 
-install pkg.sslmod/libssl.so $RPM_BUILD_ROOT/usr/lib/apache
-install pkg.contrib/sxnet/mod_sxnet.so $RPM_BUILD_ROOT/usr/lib/apache
+install pkg.sslmod/libssl.so $RPM_BUILD_ROOT%{_pkglibdir}
+install pkg.contrib/sxnet/mod_sxnet.so $RPM_BUILD_ROOT%{_pkglibdir}
 
 install pkg.contrib/*.sh $RPM_BUILD_ROOT%{_libdir}/mod_ssl
 install %{SOURCE1} $RPM_BUILD_ROOT/etc/httpd/mod_ssl.conf
@@ -94,7 +96,7 @@ install %{SOURCE3} $RPM_BUILD_ROOT/etc/httpd/server.key
 install $RPM_BUILD_DIR/mod_ssl-%{SSLVER}-%{APACHEVER}/pkg.ssldoc/* $RPM_BUILD_ROOT/home/httpd/html/ssl-doc 
 install %{SOURCE4} $RPM_BUILD_ROOT/home/httpd/html/sxnet/index.html
 
-strip --strip-unneeded $RPM_BUILD_ROOT%{_libdir}/apache/*.so
+strip --strip-unneeded $RPM_BUILD_ROOT%{_pkglibdir}/*.so
 
 gzip -9nf ANNOUNCE CHANGES CREDITS NEWS README*
 
@@ -119,12 +121,12 @@ mv /etc/httpd/httpd.conf.tmp /etc/httpd/httpd.conf
 
 /home/httpd/html/ssl-doc
 
-%attr(755,root,root) %{_libdir}/apache/libssl.so
+%attr(755,root,root) %{_pkglibdir}/libssl.so
 
 %{_libdir}/mod_ssl/*.sh
 
 %files -n apache-mod_sxnet
-%attr(755,root,root) %{_libdir}/apache/mod_sxnet.so
+%attr(755,root,root) %{_pkglibdir}/mod_sxnet.so
 /home/httpd/html/sxnet
 
 %clean
