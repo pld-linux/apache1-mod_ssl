@@ -18,6 +18,7 @@ Source4:	apache-mod_ssl-sxnet.html
 URL:		http://www.modssl.org/
 BuildRequires:	apache(EAPI)-devel = %{APACHEVER}
 BuildRequires:	openssl-devel
+BuildRequires:	openssl-tools
 Requires:	apache(EAPI) = %{APACHEVER}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
