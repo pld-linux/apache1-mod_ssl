@@ -6,7 +6,7 @@ Summary:	An SSL module for the Apache Web server
 Summary(cs):	Modul s podporou silného ¹ifrování pro WWW server Apache
 Summary(da):	Krypteringsunderstøttelse for webtjeneren Apache
 Summary(de):	SSL-Modul für den Apache-Webserver
-Summary(es):	Soporte criptofráfico para el servidor de red Apache
+Summary(es):	Soporte criptofráfico para el servidor de WWW Apache
 Summary(fr):	Un module SSL pour le serveur Web Apache
 Summary(id):	Interpreter Perl untuk web server Apache
 Summary(is):	Perl túlkur fyrir Apache vefþjóninn
@@ -77,9 +77,9 @@ Das mod_ssl-Projekt stellt kryptographie für den Apache 1.3-Webserver
 SSL/TLS-Toolkit OpenSSL, das auf SSLeay basiert, verwendet.
 
 %description -l es
-"El módulo modd_ssl proporciona la criptografía para el servidor
-Web\n" "Apache, los sockets seguros, los protocolos de la seguridad
-(SSL) y de la\n" "capa tranparente (TLS)."
+El módulo mod_ssl proporciona la criptografía para el servidor Web
+Apache, los sockets seguros, los protocolos de la seguridad (SSL) y
+de la capa tranparente (TLS).
 
 %description -l fr
 Le projet mod_ssl fournit de la forte cryptographie pour le serveur
