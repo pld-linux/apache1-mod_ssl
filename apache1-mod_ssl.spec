@@ -24,7 +24,7 @@ Release:	1
 License:	BSD
 Group:		Networking/Daemons
 Source0:	http://www.modssl.org/source/mod_ssl-%{SSLVER}-%{APACHEVER}.tar.gz
-Source1:	%{name}.conf
+Source1:	apache1-mod_ssl.conf
 Source2:	%{name}-server.crt
 Source3:	%{name}-server.key
 Source4:	%{name}-sxnet.html
