@@ -33,18 +33,18 @@ Source5:	%{name}.logrotate
 Patch1:		mod_ssl-cca-openssl-path.patch
 Patch2:		mod_ssl-db3.patch
 URL:		http://www.modssl.org/
+BuildRequires:	%{apxs}
 BuildRequires:	apache(EAPI)-devel = %{APACHEVER}
 BuildRequires:	db3-devel
 BuildRequires:	openssl-devel >= 0.9.6k
 BuildRequires:	openssl-tools >= 0.9.6k
-BuildRequires:	%{apxs}
 Requires(post,preun):	apache
 Requires(post,preun):	grep
 Requires(preun):	fileutils
 Requires:	apache(EAPI) >= %{APACHEVER}
 Provides:	mod_ssl
-BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 Obsoletes:	mod_ssl
+BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_pkglibdir	%(%{apxs} -q LIBEXECDIR)
 
@@ -196,9 +196,9 @@ if [ -f %{_sysconfdir}/httpd/httpd.conf ] && \
 	echo "Include /etc/httpd/mod_ssl.conf" >> %{_sysconfdir}/httpd/httpd.conf
 fi
 if [ -f /var/lock/subsys/httpd ]; then
-        /etc/rc.d/init.d/httpd restart 1>&2
+	/etc/rc.d/init.d/httpd restart 1>&2
 else
-        echo "Run \"/etc/rc.d/init.d/httpd start\" to start apache http daemon."
+	echo "Run \"/etc/rc.d/init.d/httpd start\" to start apache http daemon."
 fi
 
 %preun
@@ -208,7 +208,7 @@ if [ "$1" = "0" ]; then
 		%{_sysconfdir}/httpd/httpd.conf.tmp
 	mv -f %{_sysconfdir}/httpd/httpd.conf.tmp %{_sysconfdir}/httpd/httpd.conf
 	if [ -f /var/lock/subsys/httpd ]; then
-	        /etc/rc.d/init.d/httpd restart 1>&2
+		/etc/rc.d/init.d/httpd restart 1>&2
 	fi
 fi
 
@@ -225,7 +225,7 @@ if [ "$1" = "0" ]; then
 		/etc/rc.d/init.d/httpd restart 1>&2
 	fi
 fi
-						
+
 %files
 %defattr(644,root,root,755)
 %doc ANNOUNCE CHANGES CREDITS NEWS README* ssl-doc
