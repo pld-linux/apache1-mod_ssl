@@ -150,7 +150,7 @@ System.
 
 %build
 SSL_BASE=SYSTEM
-export SSL_BASE 
+export SSL_BASE
 %configure \
 	--with-apxs=%{apxs} \
 	--enable-shared=ssl \
