@@ -1,5 +1,5 @@
-%define		SSLVER 2.8.8
-%define		APACHEVER 1.3.24
+%define		SSLVER 2.8.9
+%define		APACHEVER 1.3.26
 %define 	apxs	/usr/sbin/apxs
 Summary:	An SSL module for the Apache Web server
 Summary(cs):	Modul s podporou silného ¹ifrování pro WWW server Apache
@@ -20,7 +20,7 @@ Summary(sv):	Kryptografistöd till webbservern Apache
 Summary(uk):	íÏÄÕÌØ Ð¦ÄÔÒÉÍËÉ SSL × Apache
 Name:		apache-mod_ssl
 Version:	%{SSLVER}_%{APACHEVER}
-Release:	2
+Release:	1
 License:	BSD
 Group:		Networking/Daemons
 Source0:	http://www.modssl.org/source/mod_ssl-%{SSLVER}-%{APACHEVER}.tar.gz
@@ -32,7 +32,7 @@ Source5:	%{name}.logrotate
 Patch1:		mod_ssl-cca-openssl-path.patch
 Patch2:		mod_ssl-db3.patch
 URL:		http://www.modssl.org/
-BuildRequires:	apache(EAPI)-devel >= %{APACHEVER}
+BuildRequires:	apache(EAPI)-devel = %{APACHEVER}
 BuildRequires:	openssl-devel >= 0.9.6a
 BuildRequires:	openssl-tools >= 0.9.6a
 BuildRequires:	db3-devel
@@ -154,9 +154,8 @@ export SSL_BASE
 %configure \
 	--with-apxs=%{apxs} \
 	--enable-shared=ssl \
-	--with-ssl=%{_prefix} \
-	--force
-# force is temporary - there is no mod_ssl for Apache 1.3.26 yet
+	--with-ssl=%{_prefix}
+
 %{__make}
 
 cd pkg.contrib
@@ -182,8 +181,6 @@ install %{SOURCE5} $RPM_BUILD_ROOT/etc/logrotate.d/apache-mod_ssl
 mv -f pkg.ssldoc ssl-doc
 
 install %{SOURCE4} sxnet.html
-
-gzip -9nf ANNOUNCE CHANGES CREDITS NEWS README*
 
 %post
 if [ -f %{_sysconfdir}/httpd/httpd.conf ] && \
@@ -226,7 +223,7 @@ fi
 %attr(640,root,root) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/httpd/server.crt
 %attr(640,root,root) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/httpd/server.key
 %attr(640,root,root) %config(noreplace) /etc/logrotate.d/*
-%doc *.gz
+%doc ANNOUNCE CHANGES CREDITS NEWS README*
 %doc ssl-doc
 
 %attr(755,root,root) %{_pkglibdir}/libssl.so
