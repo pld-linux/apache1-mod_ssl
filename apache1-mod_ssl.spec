@@ -1,4 +1,4 @@
-%define		SSLVER 2.8.11
+%define		SSLVER 2.8.12
 %define		APACHEVER 1.3.27
 %define 	apxs	/usr/sbin/apxs
 Summary:	An SSL module for the Apache Web server
