@@ -1,5 +1,5 @@
 %define		SSLVER		2.8.21
-%define		APACHEVER	1.3.32
+%define		APACHEVER	1.3.33
 %define		apxs		/usr/sbin/apxs1
 %define		mod_name	ssl
 Summary:	An SSL module for the Apache Web server
@@ -21,10 +21,11 @@ Summary(sv):	Kryptografistöd till webbservern Apache
 Summary(uk):	íÏÄÕÌØ Ð¦ÄÔÒÉÍËÉ SSL × Apache
 Name:		apache1-mod_%{mod_name}
 Version:	%{SSLVER}_%{APACHEVER}
-Release:	1
+Release:	2
 License:	BSD
 Group:		Networking/Daemons
-Source0:	http://www.modssl.org/source/mod_%{mod_name}-%{SSLVER}-%{APACHEVER}.tar.gz
+#Source0:	http://www.modssl.org/source/mod_%{mod_name}-%{SSLVER}-%{APACHEVER}.tar.gz
+Source0:	http://www.modssl.org/source/mod_%{mod_name}-%{SSLVER}-1.3.32.tar.gz
 # Source0-md5:	19994ade6f8c46aa6cac87bca797fe82
 Source1:	%{name}.conf
 Source2:	%{name}-server.crt
@@ -40,6 +41,7 @@ BuildRequires:	apache1-devel = %{APACHEVER}
 BuildRequires:	db-devel >= 4.1
 BuildRequires:	openssl-devel >= 0.9.7d
 BuildRequires:	openssl-tools >= 0.9.7d
+BuildRequires:	sed >= 4.0
 Requires(post,preun):	apache1
 Requires(post,preun):	grep
 Requires(preun):	fileutils
@@ -163,12 +165,15 @@ rejestruj± siê pod opiek± administratora poprzez Thawte Personal Cert
 System.
 
 %prep
-%setup -q -n mod_%{mod_name}-%{SSLVER}-%{APACHEVER}
+#%setup -q -n mod_%{mod_name}-%{SSLVER}-%{APACHEVER}
+%setup -q -n mod_%{mod_name}-%{SSLVER}-1.3.32
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
 
 %{__perl} -pi -e 's@ /lib /usr/lib @ /%{_lib} /usr/%{_lib} @' pkg.sslmod/libssl.module
+# Really temporary hack...
+sed -i -e 's/1.3.32$/%{APACHEVER}/' pkg.sslmod/libssl.version
 
 %build
 SSL_BASE=SYSTEM; export SSL_BASE
