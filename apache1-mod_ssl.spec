@@ -15,6 +15,7 @@ Source3:	apache-mod_ssl-server.key
 Source4:	apache-mod_ssl-sxnet.html
 URL:		http://www.modssl.org/
 BuildRequires:	apache(EAPI)-devel = 1.3.12
+BuildRequires:	openssl-devel
 Requires:	apache(EAPI) = 1.3.12
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
