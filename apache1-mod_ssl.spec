@@ -22,7 +22,7 @@ BuildRequires:	apache(EAPI)-devel = %{APACHEVER}
 BuildRequires:	openssl-devel
 BuildRequires:	openssl-tools
 BuildRequires:	db3-devel
-BuildRequires:	apache-devel(EAPI) = %{APACHEVER}
+BuildRequires:	apache(EAPI)-devel = %{APACHEVER}
 Requires:	apache(EAPI) = %{APACHEVER}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
