@@ -20,7 +20,7 @@ Summary(sv):	KryptografistЖd till webbservern Apache
 Summary(uk):	Модуль п╕дтримки SSL в Apache
 Name:		apache-mod_ssl
 Version:	%{SSLVER}_%{APACHEVER}
-Release:	2
+Release:	3
 License:	BSD
 Group:		Networking/Daemons
 Group(cs):	SМ╩ovИ/DИmoni
