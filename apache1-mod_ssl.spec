@@ -32,15 +32,15 @@ Source5:	%{name}.logrotate
 Patch1:		mod_ssl-cca-openssl-path.patch
 Patch2:		mod_ssl-db3.patch
 URL:		http://www.modssl.org/
-BuildRequires:	apache(EAPI)-devel = %{APACHEVER}
+BuildRequires:	apache1(EAPI)-devel = %{APACHEVER}
 BuildRequires:	openssl-devel >= 0.9.7
 BuildRequires:	openssl-tools >= 0.9.7
-BuildRequires:	db3-devel
+BuildRequires:	db-devel >= 4.1
 BuildRequires:	%{apxs}
 Requires(post,preun):	apache
 Requires(post,preun):	grep
 Requires(preun):	fileutils
-Requires:	apache(EAPI) >= %{APACHEVER}
+Requires:	apache1(EAPI) >= %{APACHEVER}
 Provides:	mod_ssl
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 Obsoletes:	mod_ssl
@@ -127,7 +127,7 @@ Summary(fr):	Module d'Extranet Fort pour Apache et mod_ssl
 Summary(pl):	Modu³ Strong Extranet dla pakietu mod_ssl i serwera WWW Apache
 Group:		Networking/Daemons
 Requires(post,preun):	%{apxs}
-Requires:	apache(EAPI) >= %{APACHEVER}
+Requires:	apache1(EAPI) >= %{APACHEVER}
 
 %description -n apache-mod_sxnet
 The Strong Extranet allows you to use digital certificates to
