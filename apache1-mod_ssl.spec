@@ -148,7 +148,6 @@ fi
 %attr(640,root,root) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/httpd/server.key
 %doc *.gz
 %doc ssl-doc
-%dir /home/httpd/html/docs/ssl-doc
 %doc /home/httpd/html/docs/ssl-doc
 
 %attr(755,root,root) %{_pkglibdir}/libssl.so
