@@ -1,4 +1,4 @@
-%define		SSLVER		2.8.19
+%define		SSLVER		2.8.20
 %define		APACHEVER	1.3.31
 %define		apxs		/usr/sbin/apxs1
 %define		mod_name	ssl
@@ -21,11 +21,11 @@ Summary(sv):	KryptografistЖd till webbservern Apache
 Summary(uk):	Модуль п╕дтримки SSL в Apache
 Name:		apache1-mod_%{mod_name}
 Version:	%{SSLVER}_%{APACHEVER}
-Release:	4
+Release:	1
 License:	BSD
 Group:		Networking/Daemons
 Source0:	http://www.modssl.org/source/mod_%{mod_name}-%{SSLVER}-%{APACHEVER}.tar.gz
-# Source0-md5:	ae2becebfec3784f9342932581e1cc9d
+# Source0-md5:	4843881cfa31d6bb1b045d24562be835
 Source1:	%{name}.conf
 Source2:	%{name}-server.crt
 Source3:	%{name}-server.key
