@@ -1,5 +1,5 @@
-%define		SSLVER 2.8.11
-%define		APACHEVER 1.3.27
+%define		SSLVER 2.8.15
+%define		APACHEVER 1.3.28
 %define 	apxs	/usr/sbin/apxs
 Summary:	An SSL module for the Apache Web server
 Summary(cs):	Modul s podporou silného ¹ifrování pro WWW server Apache
@@ -24,7 +24,8 @@ Release:	1
 License:	BSD
 Group:		Networking/Daemons
 Source0:	http://www.modssl.org/source/mod_ssl-%{SSLVER}-%{APACHEVER}.tar.gz
-Source1:	%{name}.conf
+# Source0-md5:	0f37d6efd51128f696000d73624f5aff
+Source1:	apache1-mod_ssl.conf
 Source2:	%{name}-server.crt
 Source3:	%{name}-server.key
 Source4:	%{name}-sxnet.html
@@ -33,9 +34,9 @@ Patch1:		mod_ssl-cca-openssl-path.patch
 Patch2:		mod_ssl-db3.patch
 URL:		http://www.modssl.org/
 BuildRequires:	apache(EAPI)-devel = %{APACHEVER}
-BuildRequires:	openssl-devel >= 0.9.6a
-BuildRequires:	openssl-tools >= 0.9.6a
 BuildRequires:	db3-devel
+BuildRequires:	openssl-devel >= 0.9.6j
+BuildRequires:	openssl-tools >= 0.9.6j
 BuildRequires:	%{apxs}
 Requires(post,preun):	apache
 Requires(post,preun):	grep
@@ -227,12 +228,11 @@ fi
 						
 %files
 %defattr(644,root,root,755)
+%doc ANNOUNCE CHANGES CREDITS NEWS README* ssl-doc
 %attr(640,root,root) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/httpd/mod_ssl.conf
 %attr(640,root,root) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/httpd/server.crt
 %attr(640,root,root) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/httpd/server.key
 %attr(640,root,root) %config(noreplace) /etc/logrotate.d/*
-%doc ANNOUNCE CHANGES CREDITS NEWS README*
-%doc ssl-doc
 
 %attr(755,root,root) %{_pkglibdir}/libssl.so
 
@@ -241,5 +241,5 @@ fi
 
 %files -n apache-mod_sxnet
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_pkglibdir}/mod_sxnet.so
 %doc sxnet.html
+%attr(755,root,root) %{_pkglibdir}/mod_sxnet.so
