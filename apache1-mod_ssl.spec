@@ -12,7 +12,7 @@ Summary(is):	Perl túlkur fyrir Apache vefþjóninn
 Summary(it):	Supporto di crittografia per il server Web Apache
 Summary(ja):	Apache Web ¥µ¡¼¥Ð¡¼ÍÑ¤Î°Å¹æ¥µ¥Ý¡¼¥È
 Summary(no):	Krypteringsstøtte for webtjeneren Apache
-Summary(pl):	Modu³ SSL dla webserwera Apache
+Summary(pl):	Modu³ SSL dla serwera WWW Apache
 Summary(pt):	O suporte de cifra para o servidor Web Apache
 Summary(ru):	íÏÄÕÌØ ÐÏÄÄÅÒÖËÉ SSL × Apache
 Summary(sl):	Podpora za ¹ifriranje za spletni stre¾nik Apache
@@ -20,7 +20,7 @@ Summary(sv):	Kryptografistöd till webbservern Apache
 Summary(uk):	íÏÄÕÌØ Ð¦ÄÔÒÉÍËÉ SSL × Apache
 Name:		apache-mod_ssl
 Version:	%{SSLVER}_%{APACHEVER}
-Release:	1
+Release:	2
 License:	BSD
 Group:		Networking/Daemons
 Source0:	http://www.modssl.org/source/mod_ssl-%{SSLVER}-%{APACHEVER}.tar.gz
@@ -32,7 +32,7 @@ Source5:	%{name}.logrotate
 Patch1:		mod_ssl-cca-openssl-path.patch
 Patch2:		mod_ssl-db3.patch
 URL:		http://www.modssl.org/
-BuildRequires:	apache(EAPI)-devel = %{APACHEVER}
+BuildRequires:	apache(EAPI)-devel >= %{APACHEVER}
 BuildRequires:	openssl-devel >= 0.9.6a
 BuildRequires:	openssl-tools >= 0.9.6a
 BuildRequires:	db3-devel
@@ -121,7 +121,7 @@ Apache -- ÐÏÔÕÖÎÉÊ ×¦ÌØÎÏ ÒÏÚÐÏ×ÓÀÄÖÕ×ÁÎÉÊ ÓÅÒ×ÅÒ http. ãÅ
 %package -n apache-mod_sxnet
 Summary:	Strong Extranet module for mod_ssl and apache
 Summary(fr):	Module d'Extranet Fort pour Apache et mod_ssl
-Summary(pl):	Modu³ Strong Extranet dla pakietu mod_ssl i webserwera Apache
+Summary(pl):	Modu³ Strong Extranet dla pakietu mod_ssl i serwera WWW Apache
 Group:		Networking/Daemons
 Requires:	apache(EAPI) >= %{APACHEVER}
 
@@ -139,7 +139,7 @@ travers le Thawte Personal Cert System.
 
 %description -n apache-mod_sxnet -l pl
 Pakiet Strong Extranet umo¿liwia u¿ywanie cyfrowych certyfikatów dla
-uwierzytleniania u¿ytkowników serwera www. Zwykle u¿ytkownicy
+uwierzytelniania u¿ytkowników serwera www. Zwykle u¿ytkownicy
 rejestruj± siê pod opiek± administratora poprzez Thawte Personal Cert
 System.
 
@@ -154,7 +154,9 @@ export SSL_BASE
 %configure \
 	--with-apxs=%{apxs} \
 	--enable-shared=ssl \
-	--with-ssl=%{_prefix}
+	--with-ssl=%{_prefix} \
+	--force
+# force is temporary - there is no mod_ssl for Apache 1.3.26 yet
 %{__make}
 
 cd pkg.contrib
