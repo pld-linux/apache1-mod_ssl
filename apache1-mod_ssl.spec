@@ -26,7 +26,7 @@ BuildRequires:	openssl-tools >= 0.9.6a
 BuildRequires:	db3-devel
 BuildRequires:	apache(EAPI)-devel = %{APACHEVER}
 Requires:	apache(EAPI) >= %{APACHEVER}
-Provdes:	mod_ssl
+Provides:	mod_ssl
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 Obsoletes:	mod_ssl
 
