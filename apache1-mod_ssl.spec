@@ -33,8 +33,8 @@ Patch1:		mod_ssl-cca-openssl-path.patch
 Patch2:		mod_ssl-db3.patch
 URL:		http://www.modssl.org/
 BuildRequires:	apache(EAPI)-devel = %{APACHEVER}
-BuildRequires:	openssl-devel >= 0.9.6a
-BuildRequires:	openssl-tools >= 0.9.6a
+BuildRequires:	openssl-devel >= 0.9.7
+BuildRequires:	openssl-tools >= 0.9.7
 BuildRequires:	db3-devel
 BuildRequires:	%{apxs}
 Requires(post,preun):	apache
