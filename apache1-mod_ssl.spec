@@ -1,6 +1,6 @@
-%define		SSLVER 2.8.19
-%define		APACHEVER 1.3.31
-%define 	apxs	/usr/sbin/apxs1
+%define		SSLVER		2.8.19
+%define		APACHEVER	1.3.31
+%define		apxs		/usr/sbin/apxs1
 %define		mod_name	ssl
 Summary:	An SSL module for the Apache Web server
 Summary(cs):	Modul s podporou silného ¹ifrování pro WWW server Apache
