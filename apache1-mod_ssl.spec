@@ -20,7 +20,7 @@ Summary(sv):	Kryptografistöd till webbservern Apache
 Summary(uk):	íÏÄÕÌØ Ð¦ÄÔÒÉÍËÉ SSL × Apache
 Name:		apache1-mod_ssl
 Version:	%{SSLVER}_%{APACHEVER}
-Release:	1
+Release:	2
 License:	BSD
 Group:		Networking/Daemons
 Source0:	http://www.modssl.org/source/mod_ssl-%{SSLVER}-%{APACHEVER}.tar.gz
@@ -124,6 +124,18 @@ Apache -- ÐÏÔÕÖÎÉÊ ×¦ÌØÎÏ ÒÏÚÐÏ×ÓÀÄÖÕ×ÁÎÉÊ ÓÅÒ×ÅÒ http. ãÅ
 ÎÁÊÐÏÐÕÌÑÒÎ¦ÛÉÊ ÓÅÒ×ÅÒ Õ Ó×¦Ô¦ (×ÉËÏÒÉÓÔÏ×Õ¤ÔØÓÑ Â¦ÌØÛ ÑË ÎÁ 50%%
 ÓÅÒ×ÅÒ¦×). ãÑ ×ÅÒÓ¦Ñ Í¦ÓÔÉÔØ Ð¦ÄÔÒÉÍËÕ SSL v2, v3 ÔÁ TLS v1.
 
+%package devel
+Summary:	Header files for mod_ssl
+Summary(pl):	Pliki nag³ówkowe dla mod_ssl
+Group:		Development/Building
+Requires:	apache1-devel >= %{APACHEVER}
+
+%description devel
+Header files for mod_ssl.
+
+%description devel -l pl
+Pliki nag³ówkowe dla mod_ssl.
+
 %package -n apache1-mod_sxnet
 Summary:	Strong Extranet module for mod_ssl and apache
 Summary(fr):	Module d'Extranet Fort pour Apache et mod_ssl
@@ -175,6 +187,7 @@ cd sxnet
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_libdir}/mod_ssl,%{_pkglibdir}} \
+	$RPM_BUILD_ROOT%{_includedir}/apache1 \
 	$RPM_BUILD_ROOT%{_apachesysconfdir} \
 	$RPM_BUILD_ROOT/etc/logrotate.d
 
@@ -190,6 +203,8 @@ install %{SOURCE5} $RPM_BUILD_ROOT/etc/logrotate.d/apache-mod_ssl
 mv -f pkg.ssldoc ssl-doc
 
 install %{SOURCE4} sxnet.html
+
+install pkg.sslmod/*.h $RPM_BUILD_ROOT%{_includedir}/apache1
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -242,6 +257,9 @@ fi
 
 %dir %{_libdir}/mod_ssl
 %attr(755,root,root) %{_libdir}/mod_ssl/*.sh
+
+%files devel
+%{_includedir}/apache1/*.h
 
 %files -n apache1-mod_sxnet
 %defattr(644,root,root,755)
