@@ -120,7 +120,7 @@ via\n" "protokollen SSL (Secure Sockets Layer) och TLS (Transport
 Layer\n" "Security)."
 
 %description -l uk
-Apache -- потужний в╕льно розповсюджуваний сервер http. Це
+Apache -- потужний в╕льно розповсюджуваний сервер HTTP. Це
 найпопулярн╕ший сервер у св╕т╕ (використову╓ться б╕льш як на 50%%
 сервер╕в). Ця верс╕я м╕стить п╕дтримку SSL v2, v3 та TLS v1.
 
@@ -217,7 +217,7 @@ fi
 if [ -f /var/lock/subsys/apache ]; then
 	/etc/rc.d/init.d/apache restart 1>&2
 else
-	echo "Run \"/etc/rc.d/init.d/apache start\" to start apache http daemon."
+	echo "Run \"/etc/rc.d/init.d/apache start\" to start apache HTTP daemon."
 fi
 
 %preun
