@@ -26,26 +26,28 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %description
 The mod_ssl project provides strong cryptography for the Apache 1.3
 webserver via the Secure Sockets Layer (SSL v2/v3) and Transport Layer
-Security (TLS v1) protocols by the help of the Open Source SSL/TLS toolkit
-OpenSSL, which is based on SSLeay from Eric A. Young and Tim J. Hudson. 
+Security (TLS v1) protocols by the help of the Open Source SSL/TLS
+toolkit OpenSSL, which is based on SSLeay from Eric A. Young and Tim
+J. Hudson.
 
-The mod_ssl package was created in April 1998 by Ralf S. Engelschall and
-was originally derived from software developed by Ben Laurie for use in the
-Apache-SSL HTTP server project. The mod_ssl package is licensed under a
-BSD-style licence, which basically means that you are free to get and use
-it for commercial and non-commercial purposes. 
+The mod_ssl package was created in April 1998 by Ralf S. Engelschall
+and was originally derived from software developed by Ben Laurie for
+use in the Apache-SSL HTTP server project. The mod_ssl package is
+licensed under a BSD-style licence, which basically means that you are
+free to get and use it for commercial and non-commercial purposes.
 
 %description -l de
-Das mod_ssl-Projekt stellt kryptographie für den Apache 1.3-Webserver über
-Secure Sockets Layer (SSL v2/v3) und Transport Layer Security (TLS
-v1)-Protokolle zur Verfügung. Dazu wird das Open Source SSL/TLS-Toolkit
-OpenSSL, das auf SSLeay basiert, verwendet.
+Das mod_ssl-Projekt stellt kryptographie für den Apache 1.3-Webserver
+über Secure Sockets Layer (SSL v2/v3) und Transport Layer Security
+(TLS v1)-Protokolle zur Verfügung. Dazu wird das Open Source
+SSL/TLS-Toolkit OpenSSL, das auf SSLeay basiert, verwendet.
 
 %description -l fr
-Le projet mod_ssl fournit de la forte cryptographie pour le serveur web
-Apache 1.3 via les protocoles Secure Sockets Layer (SSL v2/v3) et Transport
-Layer Security (TLS v1) avec l'aide du kit d'outils Open Source SSL/TLS,
-OpenSSL, base sur SSLeay d'Eric A. Young et Tim J. Hudson.
+Le projet mod_ssl fournit de la forte cryptographie pour le serveur
+web Apache 1.3 via les protocoles Secure Sockets Layer (SSL v2/v3) et
+Transport Layer Security (TLS v1) avec l'aide du kit d'outils Open
+Source SSL/TLS, OpenSSL, base sur SSLeay d'Eric A. Young et Tim J.
+Hudson.
 
 %description -l pl
 Projekt mod_ssl ma za zadanie zapewniæ serwerowi www Apache 1.3 wysoki
@@ -63,20 +65,22 @@ Group(pl):	Sieciowe/Serwery
 Requires:	apache = %{APACHEVER}
 
 %description -n apache-mod_sxnet
-The Strong Extranet allows you to use digital certificates to authenticate
-users on your web server. Typically, your users enroll in your Strong 
-Extranet, under your control, through the Thawte Personal Cert System.  
+The Strong Extranet allows you to use digital certificates to
+authenticate users on your web server. Typically, your users enroll in
+your Strong Extranet, under your control, through the Thawte Personal
+Cert System.
 
 %description -l fr -n apache-mod_sxnet
 L'Extranet Fort vous permet d'utiliser des certificats numeriques pour
-authentifier les usagers sur votre serveur web. Typiquement, vos usagers
-s'enrolent dans votre Extranet Fort, sous votre controle, a travers le
-Thawte Personal Cert System.
+authentifier les usagers sur votre serveur web. Typiquement, vos
+usagers s'enrolent dans votre Extranet Fort, sous votre controle, a
+travers le Thawte Personal Cert System.
 
 %description -l pl -n apache-mod_sxnet
 Pakiet Strong Extranet umo¿liwia u¿ywanie cyfrowych certyfikatów dla
-uwierzytleniania u¿ytkowników serwera www. Zwykle u¿ytkownicy rejestruj±
-siê pod opiek± administratora poprzez Thawte Personal Cert System.
+uwierzytleniania u¿ytkowników serwera www. Zwykle u¿ytkownicy
+rejestruj± siê pod opiek± administratora poprzez Thawte Personal Cert
+System.
 
 %prep
 %setup -q -n mod_ssl-%{SSLVER}-%{APACHEVER}
@@ -94,7 +98,7 @@ make
 cd pkg.contrib
 tar xvf sxnet.tar
 cd sxnet
-%{_sbindir}/apxs -I%{_includedir}/openssl/ -L%{_libdir} -l ssl -l crypto -c mod_sxnet.c
+/usr/sbin/apxs -I%{_includedir}/openssl/ -L%{_libdir} -l ssl -l crypto -c mod_sxnet.c
 
 %install
 rm -rf $RPM_BUILD_ROOT
