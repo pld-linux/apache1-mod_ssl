@@ -18,13 +18,12 @@ Source3:	%{name}-server.key
 Source4:	%{name}-sxnet.html
 Source5:	%{name}.logrotate
 Patch1:		mod_ssl-cca-openssl-path.patch
-Patch2:		mod_ssl-db1.patch
+Patch2:		mod_ssl-db3.patch
 URL:		http://www.modssl.org/
 BuildRequires:	apache(EAPI)-devel = %{APACHEVER}
 BuildRequires:	openssl-devel >= 0.9.6a
 BuildRequires:	openssl-tools >= 0.9.6a
 BuildRequires:	db3-devel
-BuildRequires:	db1-devel
 BuildRequires:	apache(EAPI)-devel = %{APACHEVER}
 Requires:	apache(EAPI) >= %{APACHEVER}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
