@@ -6,7 +6,7 @@ Summary(fr):	Un module SSL pour le serveur Web Apache
 Summary(pl):	Modu³ SSL dla webserwera Apache
 Name:		apache-mod_ssl
 Version:	%{SSLVER}_%{APACHEVER}
-Release:	1
+Release:	2
 License:	BSD
 Group:		Networking/Daemons
 Group(de):	Netzwerkwesen/Server
