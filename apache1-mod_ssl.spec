@@ -18,7 +18,7 @@ Summary(ru):	íÏÄÕÌØ ÐÏÄÄÅÒÖËÉ SSL × Apache
 Summary(sl):	Podpora za ¹ifriranje za spletni stre¾nik Apache
 Summary(sv):	Kryptografistöd till webbservern Apache
 Summary(uk):	íÏÄÕÌØ Ð¦ÄÔÒÉÍËÉ SSL × Apache
-Name:		apache-mod_ssl
+Name:		apache1-mod_ssl
 Version:	%{SSLVER}_%{APACHEVER}
 Release:	1
 License:	BSD
@@ -122,7 +122,7 @@ Apache -- ÐÏÔÕÖÎÉÊ ×¦ÌØÎÏ ÒÏÚÐÏ×ÓÀÄÖÕ×ÁÎÉÊ ÓÅÒ×ÅÒ http. ãÅ
 ÎÁÊÐÏÐÕÌÑÒÎ¦ÛÉÊ ÓÅÒ×ÅÒ Õ Ó×¦Ô¦ (×ÉËÏÒÉÓÔÏ×Õ¤ÔØÓÑ Â¦ÌØÛ ÑË ÎÁ 50%%
 ÓÅÒ×ÅÒ¦×). ãÑ ×ÅÒÓ¦Ñ Í¦ÓÔÉÔØ Ð¦ÄÔÒÉÍËÕ SSL v2, v3 ÔÁ TLS v1.
 
-%package -n apache-mod_sxnet
+%package -n apache1-mod_sxnet
 Summary:	Strong Extranet module for mod_ssl and apache
 Summary(fr):	Module d'Extranet Fort pour Apache et mod_ssl
 Summary(pl):	Modu³ Strong Extranet dla pakietu mod_ssl i serwera WWW Apache
@@ -130,19 +130,19 @@ Group:		Networking/Daemons
 Requires(post,preun):	%{apxs}
 Requires:	apache1(EAPI) >= %{APACHEVER}
 
-%description -n apache-mod_sxnet
+%description -n apache1-mod_sxnet
 The Strong Extranet allows you to use digital certificates to
 authenticate users on your web server. Typically, your users enroll in
 your Strong Extranet, under your control, through the Thawte Personal
 Cert System.
 
-%description -n apache-mod_sxnet -l fr
+%description -n apache1-mod_sxnet -l fr
 L'Extranet Fort vous permet d'utiliser des certificats numeriques pour
 authentifier les usagers sur votre serveur web. Typiquement, vos
 usagers s'enrolent dans votre Extranet Fort, sous votre controle, a
 travers le Thawte Personal Cert System.
 
-%description -n apache-mod_sxnet -l pl
+%description -n apache1-mod_sxnet -l pl
 Pakiet Strong Extranet umo¿liwia u¿ywanie cyfrowych certyfikatów dla
 uwierzytelniania u¿ytkowników serwera www. Zwykle u¿ytkownicy
 rejestruj± siê pod opiek± administratora poprzez Thawte Personal Cert
@@ -211,13 +211,13 @@ if [ "$1" = "0" ]; then
 	fi
 fi
 
-%post -n apache-mod_sxnet
+%post -n apache1-mod_sxnet
 %{apxs} -e -a -n sxnet %{_pkglibdir}/mod_sxnet.so 1>&2
 if [ -f /var/lock/subsys/httpd ]; then
 	/etc/rc.d/init.d/httpd restart 1>&2
 fi
 
-%preun -n apache-mod_sxnet
+%preun -n apache1-mod_sxnet
 if [ "$1" = "0" ]; then
 	%{apxs} -e -A -n sxnet %{_pkglibdir}/mod_sxnet.so 1>&2
 	if [ -f /var/lock/subsys/httpd ]; then
@@ -238,7 +238,7 @@ fi
 %dir %{_libdir}/mod_ssl
 %attr(755,root,root) %{_libdir}/mod_ssl/*.sh
 
-%files -n apache-mod_sxnet
+%files -n apache1-mod_sxnet
 %defattr(644,root,root,755)
 %doc sxnet.html
 %attr(755,root,root) %{_pkglibdir}/mod_sxnet.so
