@@ -33,11 +33,11 @@ Source5:	%{name}.logrotate
 Patch1:		mod_ssl-cca-openssl-path.patch
 Patch2:		mod_ssl-db3.patch
 URL:		http://www.modssl.org/
+BuildRequires:	%{apxs}
 BuildRequires:	apache1(EAPI)-devel = %{APACHEVER}
 BuildRequires:	db-devel >= 4.1
 BuildRequires:	openssl-devel >= 0.9.7
 BuildRequires:	openssl-tools >= 0.9.7
-BuildRequires:	%{apxs}
 Requires(post,preun):	apache
 Requires(post,preun):	grep
 Requires(preun):	fileutils
