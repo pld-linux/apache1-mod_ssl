@@ -125,7 +125,7 @@ gzip -9nf ANNOUNCE CHANGES CREDITS NEWS README*
 %post
 if [ -f %{_sysconfdir}/httpd/httpd.conf ] && \
    ! grep -q "^Include.*/mod_ssl.conf" %{_sysconfdir}/httpd/httpd.conf; then
-	echo "Include mod_ssl.conf" >> %{_sysconfdir}/httpd/httpd.conf
+	echo "Include /etc/httpd/mod_ssl.conf" >> %{_sysconfdir}/httpd/httpd.conf
 fi
 if [ -f /var/lock/subsys/httpd ]; then
         /etc/rc.d/init.d/httpd restart 1>&2
@@ -134,7 +134,7 @@ else
 fi
 
 %postun
-grep -v "^Include.*mod_ssl.conf" /etc/httpd/httpd.conf > \
+grep -E -v "^Include.*mod_ssl.conf" /etc/httpd/httpd.conf > \
 	/etc/httpd/httpd.conf.tmp
 mv /etc/httpd/httpd.conf.tmp /etc/httpd/httpd.conf
 if [ -f /var/lock/subsys/httpd ]; then
@@ -148,6 +148,7 @@ fi
 %attr(640,root,root) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/httpd/server.key
 %doc *.gz
 %doc ssl-doc
+%dir /home/httpd/html/docs/ssl-doc
 %doc /home/httpd/html/docs/ssl-doc
 
 %attr(755,root,root) %{_pkglibdir}/libssl.so
