@@ -1,13 +1,13 @@
-/var/log/httpd/ssl_engine_log {
-    olddir /var/log/archiv/httpd
+/var/log/apache/ssl_engine_log {
+    olddir /var/log/archiv/apache
     postrotate
-	/bin/killall -HUP httpd
+	/bin/killall -HUP apache
     endscript
 }
 
-/var/log/httpd/ssl_request_log {
-    olddir /var/log/archiv/httpd
+/var/log/apache/ssl_request_log {
+    olddir /var/log/archiv/apache
     postrotate
-	/bin/killall -HUP httpd
+	/bin/killall -HUP apache
     endscript
 }
