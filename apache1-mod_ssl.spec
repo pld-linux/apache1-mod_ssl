@@ -154,8 +154,7 @@ System.
 %patch2 -p1
 
 %build
-SSL_BASE=SYSTEM
-export SSL_BASE
+SSL_BASE=SYSTEM; export SSL_BASE
 %configure \
 	--with-apxs=%{apxs} \
 	--enable-shared=ssl \
@@ -228,12 +227,11 @@ fi
 						
 %files
 %defattr(644,root,root,755)
+%doc ANNOUNCE CHANGES CREDITS NEWS README* ssl-doc
 %attr(640,root,root) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/httpd/mod_ssl.conf
 %attr(640,root,root) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/httpd/server.crt
 %attr(640,root,root) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/httpd/server.key
 %attr(640,root,root) %config(noreplace) /etc/logrotate.d/*
-%doc ANNOUNCE CHANGES CREDITS NEWS README*
-%doc ssl-doc
 
 %attr(755,root,root) %{_pkglibdir}/libssl.so
 
