@@ -212,7 +212,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %post
 if [ -f %{_sysconfdir}/apache.conf ] && \
-    ! grep -q "^Include.*/mod_%{mod_name}.conf" %{_sysconfdir}/apache.conf; then
+	! grep -q "^Include.*/mod_%{mod_name}.conf" %{_sysconfdir}/apache.conf; then
 	echo "Include %{_sysconfdir}/mod_%{mod_name}.conf" >> %{_sysconfdir}/apache.conf
 fi
 if [ -f /var/lock/subsys/apache ]; then
@@ -252,7 +252,7 @@ fi
 %attr(640,root,root) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/*.conf
 %attr(640,root,root) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/server.crt
 %attr(640,root,root) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/server.key
-%attr(640,root,root) %config(noreplace) %verify(not size mtime md5)  /etc/logrotate.d/*
+%attr(640,root,root) %config(noreplace) %verify(not size mtime md5) /etc/logrotate.d/*
 
 %attr(755,root,root) %{_pkglibdir}/libssl.so
 
