@@ -1,5 +1,5 @@
-%define		SSLVER 2.6.6
-%define		APACHEVER 1.3.12
+%define		SSLVER 2.7.1
+%define		APACHEVER 1.3.14
 Summary:	An SSL module for the Apache Web server
 Summary(de):	SSL-Modul fuer den Apache-Webserver
 Summary(fr):	Un module SSL pour le serveur Web Apache
@@ -16,10 +16,12 @@ Source1:	%{name}.conf
 Source2:	%{name}-server.crt
 Source3:	%{name}-server.key
 Source4:	%{name}-sxnet.html
+Patch0:		mod_ssl-db3.patch
 URL:		http://www.modssl.org/
 BuildRequires:	apache(EAPI)-devel = %{APACHEVER}
 BuildRequires:	openssl-devel
 BuildRequires:	openssl-tools
+BuildRequires:	db3-devel
 Requires:	apache(EAPI) = %{APACHEVER}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -87,6 +89,7 @@ System.
 
 %prep
 %setup -q -n mod_ssl-%{SSLVER}-%{APACHEVER}
+%patch0 -p1
 
 %build
 SSL_BASE=SYSTEM
