@@ -1,6 +1,7 @@
 %define		SSLVER 2.8.19
 %define		APACHEVER 1.3.31
 %define 	apxs	/usr/sbin/apxs1
+%define		mod_name	ssl
 Summary:	An SSL module for the Apache Web server
 Summary(cs):	Modul s podporou silného ¹ifrování pro WWW server Apache
 Summary(da):	Krypteringsunderstøttelse for webtjeneren Apache
@@ -18,37 +19,36 @@ Summary(ru):	íÏÄÕÌØ ÐÏÄÄÅÒÖËÉ SSL × Apache
 Summary(sl):	Podpora za ¹ifriranje za spletni stre¾nik Apache
 Summary(sv):	Kryptografistöd till webbservern Apache
 Summary(uk):	íÏÄÕÌØ Ð¦ÄÔÒÉÍËÉ SSL × Apache
-Name:		apache1-mod_ssl
+Name:		apache1-mod_%{mod_name}
 Version:	%{SSLVER}_%{APACHEVER}
-Release:	3
+Release:	4
 License:	BSD
 Group:		Networking/Daemons
-Source0:	http://www.modssl.org/source/mod_ssl-%{SSLVER}-%{APACHEVER}.tar.gz
+Source0:	http://www.modssl.org/source/mod_%{mod_name}-%{SSLVER}-%{APACHEVER}.tar.gz
 # Source0-md5:	ae2becebfec3784f9342932581e1cc9d
-Source1:	apache1-mod_ssl.conf
+Source1:	%{name}.conf
 Source2:	%{name}-server.crt
 Source3:	%{name}-server.key
 Source4:	%{name}-sxnet.html
 Source5:	%{name}.logrotate
-Patch1:		mod_ssl-cca-openssl-path.patch
-Patch2:		mod_ssl-db3.patch
+Patch1:		mod_%{mod_name}-cca-openssl-path.patch
+Patch2:		mod_%{mod_name}-db3.patch
 Patch3:		%{name}-nohttpd.patch
 URL:		http://www.modssl.org/
 BuildRequires:	%{apxs}
-BuildRequires:	apache1(EAPI)-devel = %{APACHEVER}
+BuildRequires:	apache1-devel = %{APACHEVER}
 BuildRequires:	db-devel >= 4.1
 BuildRequires:	openssl-devel >= 0.9.7d
 BuildRequires:	openssl-tools >= 0.9.7d
 Requires(post,preun):	apache1
 Requires(post,preun):	grep
 Requires(preun):	fileutils
-Requires:	apache1(EAPI) >= %{APACHEVER}
-Provides:	mod_ssl
-BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+Requires:	apache1 >= %{APACHEVER}
 Obsoletes:	mod_ssl
+BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-%define		_pkglibdir		%(%{apxs} -q LIBEXECDIR)
-%define		_apachesysconfdir	%(%{apxs} -q SYSCONFDIR)
+%define		_pkglibdir	%(%{apxs} -q LIBEXECDIR)
+%define		_sysconfdir	%(%{apxs} -q SYSCONFDIR)
 
 %description
 The mod_ssl project provides strong cryptography for the Apache 1.3
@@ -163,7 +163,7 @@ rejestruj± siê pod opiek± administratora poprzez Thawte Personal Cert
 System.
 
 %prep
-%setup -q -n mod_ssl-%{SSLVER}-%{APACHEVER}
+%setup -q -n mod_%{mod_name}-%{SSLVER}-%{APACHEVER}
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
@@ -186,19 +186,19 @@ cd sxnet
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_libdir}/mod_ssl,%{_pkglibdir}} \
+install -d $RPM_BUILD_ROOT{%{_libdir}/mod_%{mod_name},%{_pkglibdir}} \
 	$RPM_BUILD_ROOT%{_includedir}/apache1 \
-	$RPM_BUILD_ROOT%{_apachesysconfdir} \
+	$RPM_BUILD_ROOT%{_sysconfdir} \
 	$RPM_BUILD_ROOT/etc/logrotate.d
 
 install pkg.sslmod/libssl.so $RPM_BUILD_ROOT%{_pkglibdir}
 install pkg.contrib/sxnet/mod_sxnet.so $RPM_BUILD_ROOT%{_pkglibdir}
 
-install pkg.contrib/*.sh $RPM_BUILD_ROOT%{_libdir}/mod_ssl
-install %{SOURCE1} $RPM_BUILD_ROOT%{_apachesysconfdir}/mod_ssl.conf
-install %{SOURCE2} $RPM_BUILD_ROOT%{_apachesysconfdir}/server.crt
-install %{SOURCE3} $RPM_BUILD_ROOT%{_apachesysconfdir}/server.key
-install %{SOURCE5} $RPM_BUILD_ROOT/etc/logrotate.d/apache-mod_ssl
+install pkg.contrib/*.sh $RPM_BUILD_ROOT%{_libdir}/mod_%{mod_name}
+install %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/mod_%{mod_name}.conf
+install %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/server.crt
+install %{SOURCE3} $RPM_BUILD_ROOT%{_sysconfdir}/server.key
+install %{SOURCE5} $RPM_BUILD_ROOT/etc/logrotate.d/apache-mod_%{mod_name}
 
 mv -f pkg.ssldoc ssl-doc
 
@@ -210,9 +210,9 @@ install pkg.sslmod/*.h $RPM_BUILD_ROOT%{_includedir}/apache1
 rm -rf $RPM_BUILD_ROOT
 
 %post
-if [ -f %{_apachesysconfdir}/apache.conf ] && \
-    ! grep -q "^Include.*/mod_ssl.conf" %{_apachesysconfdir}/apache.conf; then
-	echo "Include %{_apachesysconfdir}/mod_ssl.conf" >> %{_apachesysconfdir}/apache.conf
+if [ -f %{_sysconfdir}/apache.conf ] && \
+    ! grep -q "^Include.*/mod_%{mod_name}.conf" %{_sysconfdir}/apache.conf; then
+	echo "Include %{_sysconfdir}/mod_%{mod_name}.conf" >> %{_sysconfdir}/apache.conf
 fi
 if [ -f /var/lock/subsys/apache ]; then
 	/etc/rc.d/init.d/apache restart 1>&2
@@ -223,9 +223,9 @@ fi
 %preun
 if [ "$1" = "0" ]; then
 	umask 027
-	grep -E -v "^Include.*mod_ssl.conf" %{_apachesysconfdir}/apache.conf > \
-		%{_apachesysconfdir}/apache.conf.tmp
-	mv -f %{_apachesysconfdir}/apache.conf.tmp %{_apachesysconfdir}/apache.conf
+	grep -E -v "^Include.*mod_%{mod_name}.conf" %{_sysconfdir}/apache.conf > \
+		%{_sysconfdir}/apache.conf.tmp
+	mv -f %{_sysconfdir}/apache.conf.tmp %{_sysconfdir}/apache.conf
 	if [ -f /var/lock/subsys/apache ]; then
 		/etc/rc.d/init.d/apache restart 1>&2
 	fi
@@ -248,15 +248,15 @@ fi
 %files
 %defattr(644,root,root,755)
 %doc ANNOUNCE CHANGES CREDITS NEWS README* ssl-doc
-%attr(640,root,root) %config(noreplace) %verify(not size mtime md5) %{_apachesysconfdir}/mod_ssl.conf
-%attr(640,root,root) %config(noreplace) %verify(not size mtime md5) %{_apachesysconfdir}/server.crt
-%attr(640,root,root) %config(noreplace) %verify(not size mtime md5) %{_apachesysconfdir}/server.key
+%attr(640,root,root) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/*.conf
+%attr(640,root,root) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/server.crt
+%attr(640,root,root) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/server.key
 %attr(640,root,root) %config(noreplace) /etc/logrotate.d/*
 
 %attr(755,root,root) %{_pkglibdir}/libssl.so
 
-%dir %{_libdir}/mod_ssl
-%attr(755,root,root) %{_libdir}/mod_ssl/*.sh
+%dir %{_libdir}/mod_%{mod_name}
+%attr(755,root,root) %{_libdir}/mod_%{mod_name}/*.sh
 
 %files devel
 %defattr(644,root,root,755)
