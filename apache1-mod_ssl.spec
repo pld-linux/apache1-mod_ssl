@@ -6,11 +6,11 @@ Summary(fr):	Un module SSL pour le serveur Web Apache
 Summary(pl):	Modu³ SSL dla webserwera Apache
 Name:		apache-mod_ssl
 Version:	%{SSLVER}_%{APACHEVER}
-Release:	1
+Release:	2
+License:	BSD
 Group:		Networking/Daemons
 Group(de):	Netzwerkwesen/Server
 Group(pl):	Sieciowe/Serwery
-License:	BSD
 Source0:	http://www.modssl.org/source/mod_ssl-%{SSLVER}-%{APACHEVER}.tar.gz
 Source1:	%{name}.conf
 Source2:	%{name}-server.crt
@@ -24,7 +24,7 @@ BuildRequires:	openssl-devel
 BuildRequires:	openssl-tools
 BuildRequires:	db3-devel
 BuildRequires:	apache(EAPI)-devel = %{APACHEVER}
-Requires:	apache(EAPI) = %{APACHEVER}
+Requires:	apache(EAPI) >= %{APACHEVER}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_pkglibdir	%(%{_sbindir}/apxs -q LIBEXECDIR)
@@ -69,7 +69,7 @@ Summary(pl):	Modu³ Strong Extranet dla pakietu mod_ssl i webserwera Apache
 Group:		Networking/Daemons
 Group(de):	Netzwerkwesen/Server
 Group(pl):	Sieciowe/Serwery
-Requires:	apache = %{APACHEVER}
+Requires:	apache(EAPI) >= %{APACHEVER}
 
 %description -n apache-mod_sxnet
 The Strong Extranet allows you to use digital certificates to
