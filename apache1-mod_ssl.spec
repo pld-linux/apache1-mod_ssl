@@ -1,6 +1,6 @@
 %define		SSLVER 2.8.16
 %define		APACHEVER 1.3.29
-%define 	apxs	/usr/sbin/apxs
+%define 	apxs	/usr/sbin/apxs1
 Summary:	An SSL module for the Apache Web server
 Summary(cs):	Modul s podporou silného ¹ifrování pro WWW server Apache
 Summary(da):	Krypteringsunderstøttelse for webtjeneren Apache
@@ -32,13 +32,14 @@ Source4:	%{name}-sxnet.html
 Source5:	%{name}.logrotate
 Patch1:		mod_ssl-cca-openssl-path.patch
 Patch2:		mod_ssl-db3.patch
+Patch3:		%{name}-nohttpd.patch
 URL:		http://www.modssl.org/
 BuildRequires:	%{apxs}
 BuildRequires:	apache1(EAPI)-devel = %{APACHEVER}
 BuildRequires:	db-devel >= 4.1
 BuildRequires:	openssl-devel >= 0.9.7d
 BuildRequires:	openssl-tools >= 0.9.7d
-Requires(post,preun):	apache
+Requires(post,preun):	apache1
 Requires(post,preun):	grep
 Requires(preun):	fileutils
 Requires:	apache1(EAPI) >= %{APACHEVER}
@@ -46,7 +47,8 @@ Provides:	mod_ssl
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 Obsoletes:	mod_ssl
 
-%define		_pkglibdir	%(%{apxs} -q LIBEXECDIR)
+%define		_pkglibdir		%(%{apxs} -q LIBEXECDIR)
+%define		_apachesysconfdir	%(%{apxs} -q SYSCONFDIR)
 
 %description
 The mod_ssl project provides strong cryptography for the Apache 1.3
@@ -152,6 +154,7 @@ System.
 %setup -q -n mod_ssl-%{SSLVER}-%{APACHEVER}
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 %build
 SSL_BASE=SYSTEM; export SSL_BASE
@@ -170,16 +173,16 @@ cd sxnet
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_libdir}/mod_ssl,%{_pkglibdir}} \
-	$RPM_BUILD_ROOT%{_sysconfdir}/httpd \
+	$RPM_BUILD_ROOT%{_apachesysconfdir} \
 	$RPM_BUILD_ROOT/etc/logrotate.d
 
 install pkg.sslmod/libssl.so $RPM_BUILD_ROOT%{_pkglibdir}
 install pkg.contrib/sxnet/mod_sxnet.so $RPM_BUILD_ROOT%{_pkglibdir}
 
 install pkg.contrib/*.sh $RPM_BUILD_ROOT%{_libdir}/mod_ssl
-install %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/httpd/mod_ssl.conf
-install %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/httpd/server.crt
-install %{SOURCE3} $RPM_BUILD_ROOT%{_sysconfdir}/httpd/server.key
+install %{SOURCE1} $RPM_BUILD_ROOT%{_apachesysconfdir}/mod_ssl.conf
+install %{SOURCE2} $RPM_BUILD_ROOT%{_apachesysconfdir}/server.crt
+install %{SOURCE3} $RPM_BUILD_ROOT%{_apachesysconfdir}/server.key
 install %{SOURCE5} $RPM_BUILD_ROOT/etc/logrotate.d/apache-mod_ssl
 
 mv -f pkg.ssldoc ssl-doc
@@ -190,47 +193,47 @@ install %{SOURCE4} sxnet.html
 rm -rf $RPM_BUILD_ROOT
 
 %post
-if [ -f %{_sysconfdir}/httpd/httpd.conf ] && \
-    ! grep -q "^Include.*/mod_ssl.conf" %{_sysconfdir}/httpd/httpd.conf; then
-	echo "Include /etc/httpd/mod_ssl.conf" >> %{_sysconfdir}/httpd/httpd.conf
+if [ -f %{_apachesysconfdir}/apache.conf ] && \
+    ! grep -q "^Include.*/mod_ssl.conf" %{_apachesysconfdir}/apache.conf; then
+	echo "Include %{_apachesysconfdir}/mod_ssl.conf" >> %{_apachesysconfdir}/apache.conf
 fi
-if [ -f /var/lock/subsys/httpd ]; then
-	/etc/rc.d/init.d/httpd restart 1>&2
+if [ -f /var/lock/subsys/apache ]; then
+	/etc/rc.d/init.d/apache restart 1>&2
 else
-	echo "Run \"/etc/rc.d/init.d/httpd start\" to start apache http daemon."
+	echo "Run \"/etc/rc.d/init.d/apache start\" to start apache http daemon."
 fi
 
 %preun
 if [ "$1" = "0" ]; then
 	umask 027
-	grep -E -v "^Include.*mod_ssl.conf" %{_sysconfdir}/httpd/httpd.conf > \
-		%{_sysconfdir}/httpd/httpd.conf.tmp
-	mv -f %{_sysconfdir}/httpd/httpd.conf.tmp %{_sysconfdir}/httpd/httpd.conf
-	if [ -f /var/lock/subsys/httpd ]; then
-		/etc/rc.d/init.d/httpd restart 1>&2
+	grep -E -v "^Include.*mod_ssl.conf" %{_apachesysconfdir}/apache.conf > \
+		%{_apachesysconfdir}/apache.conf.tmp
+	mv -f %{_apachesysconfdir}/apache.conf.tmp %{_apachesysconfdir}/apache.conf
+	if [ -f /var/lock/subsys/apache ]; then
+		/etc/rc.d/init.d/apache restart 1>&2
 	fi
 fi
 
 %post -n apache1-mod_sxnet
 %{apxs} -e -a -n sxnet %{_pkglibdir}/mod_sxnet.so 1>&2
-if [ -f /var/lock/subsys/httpd ]; then
-	/etc/rc.d/init.d/httpd restart 1>&2
+if [ -f /var/lock/subsys/apache ]; then
+	/etc/rc.d/init.d/apache restart 1>&2
 fi
 
 %preun -n apache1-mod_sxnet
 if [ "$1" = "0" ]; then
 	%{apxs} -e -A -n sxnet %{_pkglibdir}/mod_sxnet.so 1>&2
-	if [ -f /var/lock/subsys/httpd ]; then
-		/etc/rc.d/init.d/httpd restart 1>&2
+	if [ -f /var/lock/subsys/apache ]; then
+		/etc/rc.d/init.d/apache restart 1>&2
 	fi
 fi
 
 %files
 %defattr(644,root,root,755)
 %doc ANNOUNCE CHANGES CREDITS NEWS README* ssl-doc
-%attr(640,root,root) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/httpd/mod_ssl.conf
-%attr(640,root,root) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/httpd/server.crt
-%attr(640,root,root) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/httpd/server.key
+%attr(640,root,root) %config(noreplace) %verify(not size mtime md5) %{_apachesysconfdir}/mod_ssl.conf
+%attr(640,root,root) %config(noreplace) %verify(not size mtime md5) %{_apachesysconfdir}/server.crt
+%attr(640,root,root) %config(noreplace) %verify(not size mtime md5) %{_apachesysconfdir}/server.key
 %attr(640,root,root) %config(noreplace) /etc/logrotate.d/*
 
 %attr(755,root,root) %{_pkglibdir}/libssl.so
