@@ -20,7 +20,7 @@ Summary(sv):	Kryptografistöd till webbservern Apache
 Summary(uk):	íÏÄÕÌØ Ð¦ÄÔÒÉÍËÉ SSL × Apache
 Name:		apache-mod_ssl
 Version:	%{SSLVER}_%{APACHEVER}
-Release:	1
+Release:	2
 License:	BSD
 Group:		Networking/Daemons
 Source0:	http://www.modssl.org/source/mod_ssl-%{SSLVER}-%{APACHEVER}.tar.gz
@@ -160,7 +160,7 @@ export SSL_BASE
 cd pkg.contrib
 tar xvf sxnet.tar
 cd sxnet
-%{apxs} -I%{_includedir}/openssl/ -L%{_libdir} -l ssl -l crypto -c mod_sxnet.c
+%{apxs} -DMalloc=malloc -DFree=free -I%{_includedir}/openssl -L%{_libdir} -l ssl -l crypto -c mod_sxnet.c
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -204,6 +204,20 @@ if [ "$1" = "0" ]; then
 	fi
 fi
 
+%post -n apache-mod_sxnet
+/usr/sbin/apxs -e -a -n sxnet %{_pkglibdir}/mod_sxnet.so 1>&2
+if [ -f /var/lock/subsys/httpd ]; then
+	/etc/rc.d/init.d/httpd restart 1>&2
+fi
+
+%preun -n apache-mod_sxnet
+if [ "$1" = "0" ]; then
+	/usr/sbin/apxs -e -A -n sxnet %{_pkglibdir}/mod_sxnet.so 1>&2
+	if [ -f /var/lock/subsys/httpd ]; then
+		/etc/rc.d/init.d/httpd restart 1>&2
+	fi
+fi
+						
 %files
 %defattr(644,root,root,755)
 %attr(640,root,root) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/httpd/mod_ssl.conf
