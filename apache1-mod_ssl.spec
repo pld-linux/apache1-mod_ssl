@@ -1,3 +1,5 @@
+# TODO
+#  - other language's descriptions look weird, backslashes and quotes
 %define		SSLVER		2.8.22
 %define		APACHEVER	1.3.33
 %define		apxs		/usr/sbin/apxs1
@@ -21,7 +23,7 @@ Summary(sv):	KryptografistЖd till webbservern Apache
 Summary(uk):	Модуль п╕дтримки SSL в Apache
 Name:		apache1-mod_%{mod_name}
 Version:	%{SSLVER}_%{APACHEVER}
-Release:	1.7
+Release:	1.10
 License:	BSD
 Group:		Networking/Daemons
 Source0:	http://www.modssl.org/source/mod_%{mod_name}-%{SSLVER}-%{APACHEVER}.tar.gz
@@ -229,9 +231,22 @@ if [ "$1" = "0" ]; then
 fi
 
 %triggerpostun -- apache1-mod_ssl < 2.8.22_1.3.33-1.7
-sed -i -e '
-	s,^Include.*mod_ssl.conf,Include %{_sysconfdir}/conf.d/*_mod_ssl.conf,
-' /etc/apache/apache.conf
+if grep -q '^Include conf.d' /etc/apache/apache.conf; then
+	sed -i -e '
+		/^Include.*mod_%{mod_name}.conf/d
+	' /etc/apache/apache.conf
+else
+	# they're still using old apache.conf
+	sed -i -e '
+		s,^Include.*mod_%{mod_name}.conf,Include %{_sysconfdir}/conf.d/*_mod_%{mod_name}.conf,
+	' /etc/apache/apache.conf
+fi
+
+%triggerpostun -- apache1-mod_sxnet < 2.8.22_1.3.33-1.9
+# check that they're not using old apache.conf
+if ! grep -q '^Include conf.d' /etc/apache/apache.conf; then
+	%{apxs} -e -A -n sxnet %{_pkglibdir}/mod_sxnet.so 1>&2
+fi
 
 %post -n apache1-mod_sxnet
 if [ -f /var/lock/subsys/apache ]; then
