@@ -15,7 +15,7 @@ Source3:	server.key
 Source4:	sxnet.html
 URL:		http://www.modssl.org/
 Requires:	apache = 1.3.9
-BuildRoot:	/tmp/%{name}-root
+BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
 The mod_ssl project provides strong cryptography for the Apache 1.3 webserver 
@@ -101,7 +101,6 @@ grep -v -q "^Include.*httpd.conf.ssl" /etc/httpd/conf/httpd.conf > \
 	/etc/httpd/conf/httpd.conf.tmp
 mv /etc/httpd/conf/httpd.conf.tmp /etc/httpd/conf/httpd.conf
 /etc/rc.d/init.d/httpd restart
-
 
 %files
 %defattr(644,root,root,755)
