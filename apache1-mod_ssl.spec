@@ -1,5 +1,6 @@
 %define		SSLVER 2.8.6
 %define		APACHEVER 1.3.23
+%define 	apxs	/usr/sbin/apxs
 Summary:	An SSL module for the Apache Web server
 Summary(cs):	Modul s podporou silného ¹ifrování pro WWW server Apache
 Summary(da):	Krypteringsunderstøttelse for webtjeneren Apache
@@ -49,13 +50,13 @@ BuildRequires:	apache(EAPI)-devel = %{APACHEVER}
 BuildRequires:	openssl-devel >= 0.9.6a
 BuildRequires:	openssl-tools >= 0.9.6a
 BuildRequires:	db3-devel
-BuildRequires:	apache(EAPI)-devel = %{APACHEVER}
+BuildRequires:	%{apxs}
 Requires:	apache(EAPI) >= %{APACHEVER}
 Provides:	mod_ssl
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 Obsoletes:	mod_ssl
 
-%define		_pkglibdir	%(%{_sbindir}/apxs -q LIBEXECDIR)
+%define		_pkglibdir	%(%{apxs} -q LIBEXECDIR)
 
 %description
 The mod_ssl project provides strong cryptography for the Apache 1.3
@@ -179,7 +180,7 @@ System.
 SSL_BASE=SYSTEM
 export SSL_BASE 
 %configure \
-	--with-apxs=%{_sbindir}/apxs \
+	--with-apxs=%{apxs} \
 	--enable-shared=ssl \
 	--with-ssl=%{_prefix}
 %{__make}
@@ -187,7 +188,7 @@ export SSL_BASE
 cd pkg.contrib
 tar xvf sxnet.tar
 cd sxnet
-/usr/sbin/apxs -I%{_includedir}/openssl/ -L%{_libdir} -l ssl -l crypto -c mod_sxnet.c
+%{apxs} -I%{_includedir}/openssl/ -L%{_libdir} -l ssl -l crypto -c mod_sxnet.c
 
 %install
 rm -rf $RPM_BUILD_ROOT
