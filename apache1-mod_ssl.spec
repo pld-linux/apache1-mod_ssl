@@ -20,7 +20,7 @@ Summary(sv):	KryptografistЖd till webbservern Apache
 Summary(uk):	Модуль п╕дтримки SSL в Apache
 Name:		apache1-mod_ssl
 Version:	%{SSLVER}_%{APACHEVER}
-Release:	2
+Release:	3
 License:	BSD
 Group:		Networking/Daemons
 Source0:	http://www.modssl.org/source/mod_ssl-%{SSLVER}-%{APACHEVER}.tar.gz
@@ -259,6 +259,7 @@ fi
 %attr(755,root,root) %{_libdir}/mod_ssl/*.sh
 
 %files devel
+%defattr(644,root,root,755)
 %{_includedir}/apache1/*.h
 
 %files -n apache1-mod_sxnet
