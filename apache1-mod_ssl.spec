@@ -16,9 +16,9 @@ Source2:	apache-mod_ssl-server.crt
 Source3:	apache-mod_ssl-server.key
 Source4:	apache-mod_ssl-sxnet.html
 URL:		http://www.modssl.org/
-BuildRequires:	apache(EAPI)-devel = 1.3.12
+BuildRequires:	apache(EAPI)-devel = %{APACHEVER}
 BuildRequires:	openssl-devel
-Requires:	apache(EAPI) = 1.3.12
+Requires:	apache(EAPI) = %{APACHEVER}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_pkglibdir	%(%{_sbindir}/apxs -q LIBEXECDIR)
@@ -100,7 +100,7 @@ cd sxnet
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_libdir}/mod_ssl,%{_pkglibdir}} \
 	$RPM_BUILD_ROOT%{_sysconfdir}/httpd \
-	$RPM_BUILD_ROOT/home/httpd/html/docs/{ssl-doc,sxnet}
+	$RPM_BUILD_ROOT/home/httpd/html/docs
 
 install pkg.sslmod/libssl.so $RPM_BUILD_ROOT%{_pkglibdir}
 install pkg.contrib/sxnet/mod_sxnet.so $RPM_BUILD_ROOT%{_pkglibdir}
@@ -109,15 +109,22 @@ install pkg.contrib/*.sh $RPM_BUILD_ROOT%{_libdir}/mod_ssl
 install %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/httpd/mod_ssl.conf
 install %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/httpd/server.crt
 install %{SOURCE3} $RPM_BUILD_ROOT%{_sysconfdir}/httpd/server.key
-install $RPM_BUILD_DIR/mod_ssl-%{SSLVER}-%{APACHEVER}/pkg.ssldoc/* $RPM_BUILD_ROOT/home/httpd/html/docs/ssl-doc 
-install %{SOURCE4} $RPM_BUILD_ROOT/home/httpd/html/docs/sxnet/index.html
+
+mv pkg.ssldoc ssl-doc
+ln -sf %{_docdir}/%{name}-%{version}/ssl-doc \
+        $RPM_BUILD_ROOT/home/httpd/html/docs/ssl-doc
+
+install %{SOURCE4} sxnet.html
+ln -sf %{_docdir}/%{name}-%{version}/sxnet.html \
+        $RPM_BUILD_ROOT/home/httpd/html/docs/sxnet.html
 
 strip --strip-unneeded $RPM_BUILD_ROOT%{_pkglibdir}/*.so
 
 gzip -9nf ANNOUNCE CHANGES CREDITS NEWS README*
 
 %post
-if [ -f %{_sysconfdir}/httpd/httpd.conf ] && ! grep -q "^Include.*/mod_ssl.conf" %{_sysconfdir}/httpd/httpd.conf; then
+if [ -f %{_sysconfdir}/httpd/httpd.conf ] && \
+   ! grep -q "^Include.*/mod_ssl.conf" %{_sysconfdir}/httpd/httpd.conf; then
 	echo "Include mod_ssl.conf" >> %{_sysconfdir}/httpd/httpd.conf
 fi
 if [ -f /var/lock/subsys/httpd ]; then
@@ -127,7 +134,7 @@ else
 fi
 
 %postun
-grep -v -q "^Include.*mod_ssl.conf" /etc/httpd/httpd.conf > \
+grep -v "^Include.*mod_ssl.conf" /etc/httpd/httpd.conf > \
 	/etc/httpd/httpd.conf.tmp
 mv /etc/httpd/httpd.conf.tmp /etc/httpd/httpd.conf
 if [ -f /var/lock/subsys/httpd ]; then
@@ -136,12 +143,12 @@ fi
 
 %files
 %defattr(644,root,root,755)
-%config(noreplace) %{_sysconfdir}/httpd/mod_ssl.conf
-%config(noreplace) %{_sysconfdir}/httpd/server.crt
-%config(noreplace) %{_sysconfdir}/httpd/server.key
+%attr(640,root,root) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/httpd/mod_ssl.conf
+%attr(640,root,root) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/httpd/server.crt
+%attr(640,root,root) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/httpd/server.key
 %doc *.gz
-
-/home/httpd/html/docs/ssl-doc
+%doc ssl-doc
+%doc /home/httpd/html/docs/ssl-doc
 
 %attr(755,root,root) %{_pkglibdir}/libssl.so
 
@@ -150,7 +157,8 @@ fi
 %files -n apache-mod_sxnet
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_pkglibdir}/mod_sxnet.so
-/home/httpd/html/docs/sxnet
+%doc sxnet.html
+%doc /home/httpd/html/docs/sxnet.html
 
 %clean
 rm -rf $RPM_BUILD_ROOT
