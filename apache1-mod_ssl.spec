@@ -23,7 +23,7 @@ Summary(sv):	Kryptografistöd till webbservern Apache
 Summary(uk):	íÏÄÕÌØ Ð¦ÄÔÒÉÍËÉ SSL × Apache
 Name:		apache1-mod_%{mod_name}
 Version:	%{SSLVER}_%{APACHEVER}
-Release:	1.10
+Release:	1.13
 License:	BSD
 Group:		Networking/Daemons
 Source0:	http://www.modssl.org/source/mod_%{mod_name}-%{SSLVER}-%{APACHEVER}.tar.gz
@@ -45,15 +45,15 @@ BuildRequires:	openssl-devel >= 0.9.7d
 BuildRequires:	openssl-tools >= 0.9.7d
 BuildRequires:	sed >= 4.0
 Requires(post,preun):	apache1
-Requires(post,preun):	grep
-Requires(preun):	fileutils
+Requires(triggerpostun):	grep
+Requires(triggerpostun):	sed >= 4.0
 Requires:	apache1 >= %{APACHEVER}
-Conflicts:	apache1 < 1.3.33-2
+Requires:	apache1 >= 1.3.33-2
 Obsoletes:	mod_ssl
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-%define		_pkglibdir	%(%{apxs} -q LIBEXECDIR)
-%define		_sysconfdir	%(%{apxs} -q SYSCONFDIR)
+%define		_pkglibdir	%(%{apxs} -q LIBEXECDIR 2>/dev/null)
+%define		_sysconfdir	%(%{apxs} -q SYSCONFDIR 2>/dev/null)
 
 %description
 The mod_ssl project provides strong cryptography for the Apache 1.3
@@ -146,8 +146,9 @@ Summary:	Strong Extranet module for mod_ssl and apache
 Summary(fr):	Module d'Extranet Fort pour Apache et mod_ssl
 Summary(pl):	Modu³ Strong Extranet dla pakietu mod_ssl i serwera WWW Apache
 Group:		Networking/Daemons
-Requires(post,preun):	%{apxs}
+Requires(triggerpostun):	%{apxs}
 Requires:	apache1(EAPI) >= %{APACHEVER}
+Requires:	apache1 >= 1.3.33-2
 
 %description -n apache1-mod_sxnet
 The Strong Extranet allows you to use digital certificates to
@@ -208,8 +209,8 @@ install %{SOURCE5} $RPM_BUILD_ROOT/etc/logrotate.d/apache-mod_%{mod_name}
 cp -a pkg.ssldoc ssl-doc
 
 install %{SOURCE4} sxnet.html
-CFG="$RPM_BUILD_ROOT%{_sysconfdir}/conf.d"
-echo "LoadModule sxnet_module	modules/mod_sxnet.so" > $CFG/41_mod_sxnet.conf
+echo 'LoadModule sxnet_module	modules/mod_sxnet.so' > \
+	$RPM_BUILD_ROOT%{_sysconfdir}/conf.d/90_mod_sxnet.conf
 
 install pkg.sslmod/*.h $RPM_BUILD_ROOT%{_includedir}/apache1
 
@@ -231,7 +232,7 @@ if [ "$1" = "0" ]; then
 fi
 
 %triggerpostun -- apache1-mod_ssl < 2.8.22_1.3.33-1.7
-if grep -q '^Include conf.d' /etc/apache/apache.conf; then
+if grep -q '^Include conf\.d' /etc/apache/apache.conf; then
 	sed -i -e '
 		/^Include.*mod_%{mod_name}.conf/d
 	' /etc/apache/apache.conf
@@ -244,7 +245,7 @@ fi
 
 %triggerpostun -- apache1-mod_sxnet < 2.8.22_1.3.33-1.9
 # check that they're not using old apache.conf
-if ! grep -q '^Include conf.d' /etc/apache/apache.conf; then
+if grep -q '^Include conf\.d' /etc/apache/apache.conf; then
 	%{apxs} -e -A -n sxnet %{_pkglibdir}/mod_sxnet.so 1>&2
 fi
 
