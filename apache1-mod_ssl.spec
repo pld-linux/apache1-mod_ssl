@@ -81,16 +81,16 @@ cd sxnet
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT%{_libdir}/{apache,mod_ssl} \
-	$RPM_BUILD_ROOT/etc/httpd/conf \
+	$RPM_BUILD_ROOT/etc/httpd \
 	$RPM_BUILD_ROOT/home/httpd/html/{ssl-doc,sxnet}
 
 install pkg.sslmod/libssl.so $RPM_BUILD_ROOT/usr/lib/apache
 install pkg.contrib/sxnet/mod_sxnet.so $RPM_BUILD_ROOT/usr/lib/apache
 
 install pkg.contrib/*.sh $RPM_BUILD_ROOT%{_libdir}/mod_ssl
-install %{SOURCE1} $RPM_BUILD_ROOT/etc/httpd/conf/mod_ssl.conf
-install %{SOURCE2} $RPM_BUILD_ROOT/etc/httpd/conf/server.crt
-install %{SOURCE3} $RPM_BUILD_ROOT/etc/httpd/conf/server.key
+install %{SOURCE1} $RPM_BUILD_ROOT/etc/httpd/mod_ssl.conf
+install %{SOURCE2} $RPM_BUILD_ROOT/etc/httpd/server.crt
+install %{SOURCE3} $RPM_BUILD_ROOT/etc/httpd/server.key
 install $RPM_BUILD_DIR/mod_ssl-%{SSLVER}-%{APACHEVER}/pkg.ssldoc/* $RPM_BUILD_ROOT/home/httpd/html/ssl-doc 
 install %{SOURCE4} $RPM_BUILD_ROOT/home/httpd/html/sxnet/index.html
 
@@ -99,22 +99,22 @@ strip --strip-unneeded $RPM_BUILD_ROOT%{_libdir}/apache/*.so
 gzip -9nf ANNOUNCE CHANGES CREDITS NEWS README*
 
 %post
-if [ -f /etc/httpd/conf/httpd.conf ] && ! grep -q "^Include.*/mod_ssl.conf" /etc/httpd/conf/httpd.conf; then
-	echo "Include mod_ssl.conf" >> /etc/httpd/conf/httpd.conf
+if [ -f /etc/httpd/httpd.conf ] && ! grep -q "^Include.*/mod_ssl.conf" /etc/httpd/httpd.conf; then
+	echo "Include mod_ssl.conf" >> /etc/httpd/httpd.conf
 fi
 /etc/rc.d/init.d/httpd restart
 
 %postun
-grep -v -q "^Include.*mod_ssl.conf" /etc/httpd/conf/httpd.conf > \
-	/etc/httpd/conf/httpd.conf.tmp
-mv /etc/httpd/conf/httpd.conf.tmp /etc/httpd/conf/httpd.conf
+grep -v -q "^Include.*mod_ssl.conf" /etc/httpd/httpd.conf > \
+	/etc/httpd/httpd.conf.tmp
+mv /etc/httpd/httpd.conf.tmp /etc/httpd/httpd.conf
 /etc/rc.d/init.d/httpd restart
 
 %files
 %defattr(644,root,root,755)
-%config(noreplace) /etc/httpd/conf/mod_ssl.conf
-%config(noreplace) /etc/httpd/conf/server.crt
-%config(noreplace) /etc/httpd/conf/server.key
+%config(noreplace) /etc/httpd/mod_ssl.conf
+%config(noreplace) /etc/httpd/server.crt
+%config(noreplace) /etc/httpd/server.key
 %doc *.gz
 
 /home/httpd/html/ssl-doc
