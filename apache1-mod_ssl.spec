@@ -224,7 +224,7 @@ if [ "$1" = "0" ]; then
 		/etc/rc.d/init.d/httpd restart 1>&2
 	fi
 fi
-						
+
 %files
 %defattr(644,root,root,755)
 %doc ANNOUNCE CHANGES CREDITS NEWS README* ssl-doc
