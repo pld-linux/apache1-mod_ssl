@@ -36,8 +36,8 @@ URL:		http://www.modssl.org/
 BuildRequires:	%{apxs}
 BuildRequires:	apache1(EAPI)-devel = %{APACHEVER}
 BuildRequires:	db-devel >= 4.1
-BuildRequires:	openssl-devel >= 0.9.7c
-BuildRequires:	openssl-tools >= 0.9.7c
+BuildRequires:	openssl-devel >= 0.9.7d
+BuildRequires:	openssl-tools >= 0.9.7d
 Requires(post,preun):	apache
 Requires(post,preun):	grep
 Requires(preun):	fileutils
