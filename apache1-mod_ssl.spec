@@ -23,7 +23,7 @@ Summary(sv):	Kryptografistöd till webbservern Apache
 Summary(uk):	íÏÄÕÌØ Ð¦ÄÔÒÉÍËÉ SSL × Apache
 Name:		apache1-mod_%{mod_name}
 Version:	%{SSLVER}_%{APACHEVER}
-Release:	1.13
+Release:	1.14
 License:	BSD
 Group:		Networking/Daemons
 Source0:	http://www.modssl.org/source/mod_%{mod_name}-%{SSLVER}-%{APACHEVER}.tar.gz
@@ -54,6 +54,7 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_pkglibdir	%(%{apxs} -q LIBEXECDIR 2>/dev/null)
 %define		_sysconfdir	%(%{apxs} -q SYSCONFDIR 2>/dev/null)
+%define		_pkglogdir	%(%{apxs} -q PREFIX 2>/dev/null)/logs
 
 %description
 The mod_ssl project provides strong cryptography for the Apache 1.3
@@ -192,7 +193,7 @@ cd sxnet
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_libdir}/mod_%{mod_name},%{_pkglibdir}} \
+install -d $RPM_BUILD_ROOT{%{_libdir}/mod_%{mod_name},%{_pkglibdir},%{_pkglogdir}} \
 	$RPM_BUILD_ROOT%{_includedir}/apache1 \
 	$RPM_BUILD_ROOT%{_sysconfdir}/conf.d \
 	$RPM_BUILD_ROOT/etc/logrotate.d
@@ -213,6 +214,9 @@ echo 'LoadModule sxnet_module	modules/mod_sxnet.so' > \
 	$RPM_BUILD_ROOT%{_sysconfdir}/conf.d/90_mod_sxnet.conf
 
 install pkg.sslmod/*.h $RPM_BUILD_ROOT%{_includedir}/apache1
+
+> $RPM_BUILD_ROOT%{_pkglogdir}/ssl_engine_log
+> $RPM_BUILD_ROOT%{_pkglogdir}/ssl_request_log
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -268,6 +272,7 @@ fi
 %attr(640,root,root) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/server.crt
 %attr(640,root,root) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/server.key
 %attr(640,root,root) %config(noreplace) %verify(not size mtime md5) /etc/logrotate.d/*
+%attr(640,root,root) %ghost %{_pkglogdir}/*
 
 %attr(755,root,root) %{_pkglibdir}/libssl.so
 
