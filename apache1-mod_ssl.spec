@@ -6,7 +6,7 @@ Summary(fr):	Un module SSL pour le serveur Web Apache
 Summary(pl):	Modu³ SSL dla webserwera Apache
 Name:		apache-mod_ssl
 Version:	%{SSLVER}_%{APACHEVER}
-Release:	1
+Release:	2
 Group:		Networking/Daemons
 Group(de):	Netzwerkwesen/Server
 Group(pl):	Sieciowe/Serwery
@@ -17,6 +17,7 @@ Source2:	%{name}-server.crt
 Source3:	%{name}-server.key
 Source4:	%{name}-sxnet.html
 Patch0:		mod_ssl-db3.patch
+Patch1:		mod_ssl-cca-openssl-path.patch
 URL:		http://www.modssl.org/
 BuildRequires:	apache(EAPI)-devel = %{APACHEVER}
 BuildRequires:	openssl-devel
@@ -91,6 +92,7 @@ System.
 %prep
 %setup -q -n mod_ssl-%{SSLVER}-%{APACHEVER}
 %patch0 -p1
+%patch1 -p1
 
 %build
 SSL_BASE=SYSTEM
@@ -162,7 +164,7 @@ fi
 
 %attr(755,root,root) %{_pkglibdir}/libssl.so
 
-%{_libdir}/mod_ssl/*.sh
+%attr(755,root,root) %{_libdir}/mod_ssl/*.sh
 
 %files -n apache-mod_sxnet
 %defattr(644,root,root,755)
