@@ -93,7 +93,7 @@ export SSL_BASE LDFLAGS
 	--with-apxs=%{_sbindir}/apxs \
 	--enable-shared=ssl \
 	--with-ssl=%{_prefix}
-make
+%{__make}
 
 cd pkg.contrib
 tar xvf sxnet.tar
