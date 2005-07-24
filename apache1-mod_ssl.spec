@@ -52,6 +52,7 @@ Requires:	apache1 >= 1.3.33-2
 # see the config
 Requires:	apache1-mod_setenvif
 Requires:	apache1-mod_log_config
+Obsoletes:	apache-mod_ssl < 2
 Obsoletes:	mod_ssl
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -153,6 +154,7 @@ Group:		Networking/Daemons
 Requires(triggerpostun):	%{apxs}
 Requires:	apache1(EAPI) >= %{APACHEVER}
 Requires:	apache1 >= 1.3.33-2
+Obsoletes:	apache-mod_sxnet < 2
 
 %description -n apache1-mod_sxnet
 The Strong Extranet allows you to use digital certificates to
