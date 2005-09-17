@@ -241,7 +241,7 @@ if [ "$1" = "0" ]; then
 fi
 
 %triggerpostun -- apache1-mod_ssl < 2.8.22_1.3.33-1.7
-if grep -q '^Include conf\.d' /etc/apache/apache.conf; then
+if grep -q '^Include conf\.d/\*\.conf' /etc/apache/apache.conf; then
 	sed -i -e '
 		/^Include.*mod_%{mod_name}.conf/d
 	' /etc/apache/apache.conf
