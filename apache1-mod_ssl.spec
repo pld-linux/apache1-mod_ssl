@@ -1,6 +1,6 @@
 # TODO
 #  - other language's descriptions look weird, backslashes and quotes
-%define		SSLVER		2.8.22
+%define		SSLVER		2.8.24
 %define		APACHEVER	1.3.33
 %define		apxs		/usr/sbin/apxs1
 %define		mod_name	ssl
@@ -23,11 +23,11 @@ Summary(sv):	Kryptografistöd till webbservern Apache
 Summary(uk):	íÏÄÕÌØ Ð¦ÄÔÒÉÍËÉ SSL × Apache
 Name:		apache1-mod_%{mod_name}
 Version:	%{SSLVER}_%{APACHEVER}
-Release:	2.3
+Release:	1
 License:	BSD
 Group:		Networking/Daemons
 Source0:	http://www.modssl.org/source/mod_%{mod_name}-%{SSLVER}-%{APACHEVER}.tar.gz
-# Source0-md5:	cdfdf1f576f77768c90825b43b462405
+# Source0-md5:	4f28dcf0f090a7dc2ab148e6a503e99a
 Source1:	%{name}.conf
 Source2:	%{name}-server.crt
 Source3:	%{name}-server.key
