@@ -1,0 +1,4 @@
+- logrotate ssl_{engine,request}_log
+- moved /home/httpd/html/docs/ssl-doc to %doc
+- changed %postun to %preun and fixed - don't disable mod_ssl on upgrade
+- release 4
