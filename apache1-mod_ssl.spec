@@ -182,6 +182,9 @@ System.
 
 %{__perl} -pi -e 's@ /lib /usr/lib @ /%{_lib} /usr/%{_lib} @' pkg.sslmod/libssl.module
 
+cd pkg.contrib
+tar xvf sxnet.tar
+
 %build
 SSL_BASE=SYSTEM; export SSL_BASE
 %configure \
@@ -191,9 +194,7 @@ SSL_BASE=SYSTEM; export SSL_BASE
 
 %{__make}
 
-cd pkg.contrib
-tar xvf sxnet.tar
-cd sxnet
+cd pkg.contrib/sxnet
 %{apxs} -DMalloc=malloc -DFree=free -I%{_includedir}/openssl -L%{_libdir} -l ssl -l crypto -c mod_sxnet.c
 
 %install
