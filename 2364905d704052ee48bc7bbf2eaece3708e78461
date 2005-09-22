@@ -1,0 +1,1 @@
+- added "BuildRequires: apache-devel(EAPI) = %{APACHEVER}".
