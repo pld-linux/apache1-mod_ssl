@@ -1,0 +1,3 @@
+- release 2,
+- require in mod_sxnet apache(EAPI) not apache,
+- "apache(EAPI) = %{APACHEVER}" changed to "apache(EAPI) >= %{APACHEVER}".
