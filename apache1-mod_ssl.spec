@@ -1,7 +1,7 @@
 # TODO
 #  - other language's descriptions look weird, backslashes and quotes
-%define		SSLVER		2.8.24
-%define		APACHEVER	1.3.33
+%define		SSLVER		2.8.25
+%define		APACHEVER	1.3.34
 %define		apxs		/usr/sbin/apxs1
 %define		mod_name	ssl
 Summary:	An SSL module for the Apache Web server
@@ -23,11 +23,11 @@ Summary(sv):	Kryptografistöd till webbservern Apache
 Summary(uk):	íÏÄÕÌØ Ð¦ÄÔÒÉÍËÉ SSL × Apache
 Name:		apache1-mod_%{mod_name}
 Version:	%{SSLVER}_%{APACHEVER}
-Release:	1.1
+Release:	1
 License:	BSD
 Group:		Networking/Daemons
 Source0:	http://www.modssl.org/source/mod_%{mod_name}-%{SSLVER}-%{APACHEVER}.tar.gz
-# Source0-md5:	4f28dcf0f090a7dc2ab148e6a503e99a
+# Source0-md5:	1ef2a6cb47573444779b2fd10502514b
 Source1:	%{name}.conf
 Source2:	%{name}-server.crt
 Source3:	%{name}-server.key
@@ -275,10 +275,10 @@ fi
 %files
 %defattr(644,root,root,755)
 %doc ANNOUNCE CHANGES CREDITS NEWS README* ssl-doc
-%attr(640,root,root) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/conf.d/*_mod_ssl.conf
-%attr(640,root,root) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/server.crt
-%attr(640,root,root) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/server.key
-%attr(640,root,root) %config(noreplace) %verify(not size mtime md5) /etc/logrotate.d/*
+%attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/conf.d/*_mod_ssl.conf
+%attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/server.crt
+%attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/server.key
+%attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) /etc/logrotate.d/*
 %attr(640,root,root) %ghost %{_pkglogdir}/*
 
 %attr(755,root,root) %{_pkglibdir}/libssl.so
@@ -293,5 +293,5 @@ fi
 %files -n apache1-mod_sxnet
 %defattr(644,root,root,755)
 %doc sxnet.html
-%attr(640,root,root) %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/conf.d/*_mod_sxnet.conf
+%attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/conf.d/*_mod_sxnet.conf
 %attr(755,root,root) %{_pkglibdir}/mod_sxnet.so
