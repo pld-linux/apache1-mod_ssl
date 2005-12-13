@@ -50,8 +50,8 @@ Requires(triggerpostun):	sed >= 4.0
 Requires:	apache1 >= %{APACHEVER}
 Requires:	apache1 >= 1.3.33-2
 # see the config
-Requires:	apache1-mod_setenvif
 Requires:	apache1-mod_log_config
+Requires:	apache1-mod_setenvif
 Provides:	apache(mod_ssl) = %{version}-%{release}
 Obsoletes:	apache-mod_ssl < 2
 Obsoletes:	mod_ssl
@@ -88,8 +88,8 @@ SSL/TLS-Toolkit OpenSSL, das auf SSLeay basiert, verwendet.
 
 %description -l es
 El módulo mod_ssl proporciona la criptografía para el servidor Web
-Apache, los sockets seguros, los protocolos de la seguridad (SSL) y
-de la capa tranparente (TLS).
+Apache, los sockets seguros, los protocolos de la seguridad (SSL) y de
+la capa tranparente (TLS).
 
 %description -l fr
 Le projet mod_ssl fournit de la forte cryptographie pour le serveur
