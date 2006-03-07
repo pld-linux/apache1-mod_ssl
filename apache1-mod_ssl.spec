@@ -23,7 +23,7 @@ Summary(sv):	Kryptografistöd till webbservern Apache
 Summary(uk):	íÏÄÕÌØ Ð¦ÄÔÒÉÍËÉ SSL × Apache
 Name:		apache1-mod_%{mod_name}
 Version:	%{SSLVER}_%{APACHEVER}
-Release:	1
+Release:	2
 License:	BSD
 Group:		Networking/Daemons
 Source0:	http://www.modssl.org/source/mod_%{mod_name}-%{SSLVER}-%{APACHEVER}.tar.gz
@@ -39,16 +39,14 @@ Patch3:		%{name}-nohttpd.patch
 URL:		http://www.modssl.org/
 BuildRequires:	%{apxs}
 BuildRequires:	apache1-devel = %{APACHEVER}
-BuildRequires:	apache1-devel >= 1.3.33-2
 BuildRequires:	db-devel >= 4.1
 BuildRequires:	openssl-devel >= 0.9.7d
 BuildRequires:	openssl-tools >= 0.9.7d
+BuildRequires:	rpmbuild(macros) >= 1.268
 BuildRequires:	sed >= 4.0
-Requires(post,preun):	apache1
 Requires(triggerpostun):	grep
 Requires(triggerpostun):	sed >= 4.0
 Requires:	apache1 >= %{APACHEVER}
-Requires:	apache1 >= 1.3.33-2
 # see the config
 Requires:	apache1-mod_log_config
 Requires:	apache1-mod_setenvif
@@ -152,9 +150,9 @@ Summary:	Strong Extranet module for mod_ssl and apache
 Summary(fr):	Module d'Extranet Fort pour Apache et mod_ssl
 Summary(pl):	Modu³ Strong Extranet dla pakietu mod_ssl i serwera WWW Apache
 Group:		Networking/Daemons
-Requires(triggerpostun):	%{apxs}
+Requires(triggerpostun):	grep
+Requires(triggerpostun):	sed >= 4.0
 Requires:	apache1(EAPI) >= %{APACHEVER}
-Requires:	apache1 >= 1.3.33-2
 Obsoletes:	apache-mod_sxnet < 2
 
 %description -n apache1-mod_sxnet
@@ -229,17 +227,11 @@ install pkg.sslmod/*.h $RPM_BUILD_ROOT%{_includedir}/apache1
 rm -rf $RPM_BUILD_ROOT
 
 %post
-if [ -f /var/lock/subsys/apache ]; then
-	/etc/rc.d/init.d/apache restart 1>&2
-else
-	echo "Run \"/etc/rc.d/init.d/apache start\" to start apache HTTP daemon."
-fi
+%service -q apache restart
 
 %postun
 if [ "$1" = "0" ]; then
-	if [ -f /var/lock/subsys/apache ]; then
-		/etc/rc.d/init.d/apache restart 1>&2
-	fi
+	%service -q apache restart
 fi
 
 %triggerpostun -- apache1-mod_ssl < 2.8.22_1.3.33-1.7
@@ -257,19 +249,14 @@ fi
 %triggerpostun -- apache1-mod_sxnet < 2.8.22_1.3.33-1.9
 # check that they're not using old apache.conf
 if grep -q '^Include conf\.d' /etc/apache/apache.conf; then
-	%{apxs} -e -A -n sxnet %{_pkglibdir}/mod_sxnet.so 1>&2
+	sed -i -e '/^\(Add\|Load\)Module.*mod_sxnet\.\(so\|c\)/d' /etc/apache/apache.conf
 fi
 
 %post -n apache1-mod_sxnet
-if [ -f /var/lock/subsys/apache ]; then
-	/etc/rc.d/init.d/apache restart 1>&2
-fi
+%service -q apache restart
 
 %postun -n apache1-mod_sxnet
-if [ "$1" = "0" ]; then
-	if [ -f /var/lock/subsys/apache ]; then
-		/etc/rc.d/init.d/apache restart 1>&2
-	fi
+	%service -q apache restart
 fi
 
 %files
