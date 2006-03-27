@@ -1,5 +1,3 @@
-# TODO
-#  - other language's descriptions look weird, backslashes and quotes
 %define		SSLVER		2.8.25
 %define		APACHEVER	1.3.34
 %define		apxs		/usr/sbin/apxs1
@@ -23,7 +21,7 @@ Summary(sv):	KryptografistЖd till webbservern Apache
 Summary(uk):	Модуль п╕дтримки SSL в Apache
 Name:		apache1-mod_%{mod_name}
 Version:	%{SSLVER}_%{APACHEVER}
-Release:	2
+Release:	3
 License:	BSD
 Group:		Networking/Daemons
 Source0:	http://www.modssl.org/source/mod_%{mod_name}-%{SSLVER}-%{APACHEVER}.tar.gz
@@ -74,8 +72,8 @@ free to get and use it for commercial and non-commercial purposes.
 
 %description -l cs
 "Modul mod_ssl pro WWW server Apache umo╬Рuje pou╬itМ silnИho
-╧ifrovАnМ\n" "komunikace klienta (WWW prohlМ╬eХ) a serveru - SSL
-(Secure Sockets Layer)\n" "a TLS (Transport Layer Security)
+╧ifrovАnМ" "komunikace klienta (WWW prohlМ╬eХ) a serveru - SSL
+(Secure Sockets Layer)" "a TLS (Transport Layer Security)
 protokoly."
 
 %description -l de
@@ -97,14 +95,14 @@ Source SSL/TLS, OpenSSL, base sur SSLeay d'Eric A. Young et Tim J.
 Hudson.
 
 %description -l it
-"Il modulo mod_ssl fornisce un supporto di crittografia molto potente
-per\n" "il server Web Apache tramite i protocolli SSL (Secure Sockets
-Layer) e i\n" "protocolli TLS (Transport Layer Security)."
+Il modulo mod_ssl fornisce un supporto di crittografia molto potente
+per il server Web Apache tramite i protocolli SSL (Secure Sockets
+Layer) e i protocolli TLS (Transport Layer Security).
 
 %description -l ja
-"mod_ssl ╔Б╔╦╔Е║╪╔К╓о║╒SSL (Secure Sockets Layer) ╓╙╓Х╓с TLS
-(Transport \n" "Layer Security) ╔в╔М╔х╔Ё╔К╓Р╡П╓╥╓ф Apache Web
-╔╣║╪╔п║╪мя╓н╤╞но╓й╟е╧Ф╡╫\n" "╣║г╫╓РдС╤║╓╥╓ч╓╧║ё"
+mod_ssl ╔Б╔╦╔Е║╪╔К╓о║╒SSL (Secure Sockets Layer) ╓╙╓Х╓с TLS
+(Transport  Layer Security) ╔в╔М╔х╔Ё╔К╓Р╡П╓╥╓ф Apache Web
+╔╣║╪╔п║╪мя╓н╤╞но╓й╟е╧Ф╡╫ ╣║г╫╓РдС╤║╓╥╓ч╓╧║ё
 
 %description -l pl
 Projekt mod_ssl ma za zadanie zapewniФ serwerowi WWW Apache 1.3 wysoki
@@ -114,9 +112,9 @@ Open Source SSL/TSL -- OpenSSL, stworzonego na podstawie SSLeay Erica
 A.Younga i Tima J.Hudsona.
 
 %description -l pt
-"O mСdulo mod_ssl oferece uma criptografia robusta para o servidor
-Web\n" "Apache atravИs dos protocolos SSL (Secure Sockets Layer) e TLS
-(Transport\n" "Layer Security)."
+O mСdulo mod_ssl oferece uma criptografia robusta para o servidor
+Web Apache atravИs dos protocolos SSL (Secure Sockets Layer) e TLS
+(Transport Layer Security).
 
 %description -l ru
 Apache -- мощный свободно распространяемый сервер а также и самым
@@ -124,9 +122,9 @@ Apache -- мощный свободно распространяемый сервер а также и самым
 мире). Эта версия включает в себя поддержку SSL v2, v3 и TLS v1.
 
 %description -l sv
-"Modulen mod_ssl fЖrser webbservern Apache med stark kryptografi
-via\n" "protokollen SSL (Secure Sockets Layer) och TLS (Transport
-Layer\n" "Security)."
+Modulen mod_ssl fЖrser webbservern Apache med stark kryptografi
+via protokollen SSL (Secure Sockets Layer) och TLS (Transport
+Layer Security).
 
 %description -l uk
 Apache -- потужний в╕льно розповсюджуваний сервер HTTP. Це
@@ -210,7 +208,7 @@ install pkg.contrib/*.sh $RPM_BUILD_ROOT%{_libdir}/mod_%{mod_name}
 install %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/conf.d/40_mod_%{mod_name}.conf
 install %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/server.crt
 install %{SOURCE3} $RPM_BUILD_ROOT%{_sysconfdir}/server.key
-install %{SOURCE5} $RPM_BUILD_ROOT/etc/logrotate.d/apache-mod_%{mod_name}
+install %{SOURCE5} $RPM_BUILD_ROOT/etc/logrotate.d/apache1-mod_%{mod_name}
 
 cp -a pkg.ssldoc ssl-doc
 
