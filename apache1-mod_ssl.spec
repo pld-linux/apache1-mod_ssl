@@ -71,10 +71,10 @@ licensed under a BSD-style licence, which basically means that you are
 free to get and use it for commercial and non-commercial purposes.
 
 %description -l cs
-"Modul mod_ssl pro WWW server Apache umo¾òuje pou¾ití silného
-¹ifrování" "komunikace klienta (WWW prohlí¾eè) a serveru - SSL
-(Secure Sockets Layer)" "a TLS (Transport Layer Security)
-protokoly."
+Modul mod_ssl pro WWW server Apache umo¾òuje pou¾ití silného
+¹ifrování komunikace klienta (WWW prohlí¾eè) a serveru - SSL
+(Secure Sockets Layer) a TLS (Transport Layer Security)
+protokoly.
 
 %description -l de
 Das mod_ssl-Projekt stellt kryptographie für den Apache 1.3-Webserver
