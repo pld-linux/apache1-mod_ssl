@@ -1,5 +1,5 @@
-%define		SSLVER		2.8.26
-%define		APACHEVER	1.3.35
+%define		SSLVER		2.8.27
+%define		APACHEVER	1.3.36
 %define		apxs		/usr/sbin/apxs1
 %define		mod_name	ssl
 Summary:	An SSL module for the Apache Web server
@@ -25,7 +25,7 @@ Release:	1
 License:	BSD
 Group:		Networking/Daemons
 Source0:	http://www.modssl.org/source/mod_%{mod_name}-%{SSLVER}-%{APACHEVER}.tar.gz
-# Source0-md5:	c8eab590c6feb2eef800db29b0b22213
+# Source0-md5:	c67357fa4104079a6e981b9ec3f42bf4
 Source1:	%{name}.conf
 Source2:	%{name}-server.crt
 Source3:	%{name}-server.key
