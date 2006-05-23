@@ -254,6 +254,7 @@ fi
 %service -q apache restart
 
 %postun -n apache1-mod_sxnet
+if [ "$1" = "0" ]; then
 	%service -q apache restart
 fi
 
