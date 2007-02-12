@@ -3,22 +3,22 @@
 %define		apxs		/usr/sbin/apxs1
 %define		mod_name	ssl
 Summary:	An SSL module for the Apache Web server
-Summary(cs.UTF-8):   Modul s podporou silného šifrování pro WWW server Apache
-Summary(da.UTF-8):   Krypteringsunderstøttelse for webtjeneren Apache
-Summary(de.UTF-8):   SSL-Modul für den Apache-Webserver
-Summary(es.UTF-8):   Soporte criptofráfico para el servidor de WWW Apache
-Summary(fr.UTF-8):   Un module SSL pour le serveur Web Apache
-Summary(id.UTF-8):   Interpreter Perl untuk web server Apache
-Summary(is.UTF-8):   Perl túlkur fyrir Apache vefþjóninn
-Summary(it.UTF-8):   Supporto di crittografia per il server Web Apache
-Summary(ja.UTF-8):   Apache Web サーバー用の暗号サポート
-Summary(nb.UTF-8):   Krypteringsstøtte for webtjeneren Apache
-Summary(pl.UTF-8):   Moduł SSL dla serwera WWW Apache
-Summary(pt.UTF-8):   O suporte de cifra para o servidor Web Apache
-Summary(ru.UTF-8):   Модуль поддержки SSL в Apache
-Summary(sl.UTF-8):   Podpora za šifriranje za spletni strežnik Apache
-Summary(sv.UTF-8):   Kryptografistöd till webbservern Apache
-Summary(uk.UTF-8):   Модуль підтримки SSL в Apache
+Summary(cs.UTF-8):	Modul s podporou silného šifrování pro WWW server Apache
+Summary(da.UTF-8):	Krypteringsunderstøttelse for webtjeneren Apache
+Summary(de.UTF-8):	SSL-Modul für den Apache-Webserver
+Summary(es.UTF-8):	Soporte criptofráfico para el servidor de WWW Apache
+Summary(fr.UTF-8):	Un module SSL pour le serveur Web Apache
+Summary(id.UTF-8):	Interpreter Perl untuk web server Apache
+Summary(is.UTF-8):	Perl túlkur fyrir Apache vefþjóninn
+Summary(it.UTF-8):	Supporto di crittografia per il server Web Apache
+Summary(ja.UTF-8):	Apache Web サーバー用の暗号サポート
+Summary(nb.UTF-8):	Krypteringsstøtte for webtjeneren Apache
+Summary(pl.UTF-8):	Moduł SSL dla serwera WWW Apache
+Summary(pt.UTF-8):	O suporte de cifra para o servidor Web Apache
+Summary(ru.UTF-8):	Модуль поддержки SSL в Apache
+Summary(sl.UTF-8):	Podpora za šifriranje za spletni strežnik Apache
+Summary(sv.UTF-8):	Kryptografistöd till webbservern Apache
+Summary(uk.UTF-8):	Модуль підтримки SSL в Apache
 Name:		apache1-mod_%{mod_name}
 Version:	%{SSLVER}_%{APACHEVER}
 Release:	4
@@ -132,7 +132,7 @@ Apache -- потужний вільно розповсюджуваний сер�
 
 %package devel
 Summary:	Header files for mod_ssl
-Summary(pl.UTF-8):   Pliki nagłówkowe dla mod_ssl
+Summary(pl.UTF-8):	Pliki nagłówkowe dla mod_ssl
 Group:		Development/Building
 Requires:	apache1-devel >= %{APACHEVER}
 
@@ -144,8 +144,8 @@ Pliki nagłówkowe dla mod_ssl.
 
 %package -n apache1-mod_sxnet
 Summary:	Strong Extranet module for mod_ssl and apache
-Summary(fr.UTF-8):   Module d'Extranet Fort pour Apache et mod_ssl
-Summary(pl.UTF-8):   Moduł Strong Extranet dla pakietu mod_ssl i serwera WWW Apache
+Summary(fr.UTF-8):	Module d'Extranet Fort pour Apache et mod_ssl
+Summary(pl.UTF-8):	Moduł Strong Extranet dla pakietu mod_ssl i serwera WWW Apache
 Group:		Networking/Daemons
 Requires(triggerpostun):	grep
 Requires(triggerpostun):	sed >= 4.0
