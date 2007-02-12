@@ -3,22 +3,22 @@
 %define		apxs		/usr/sbin/apxs1
 %define		mod_name	ssl
 Summary:	An SSL module for the Apache Web server
-Summary(cs):	Modul s podporou silného ¹ifrování pro WWW server Apache
-Summary(da):	Krypteringsunderstøttelse for webtjeneren Apache
-Summary(de):	SSL-Modul für den Apache-Webserver
-Summary(es):	Soporte criptofráfico para el servidor de WWW Apache
-Summary(fr):	Un module SSL pour le serveur Web Apache
-Summary(id):	Interpreter Perl untuk web server Apache
-Summary(is):	Perl túlkur fyrir Apache vefþjóninn
-Summary(it):	Supporto di crittografia per il server Web Apache
-Summary(ja):	Apache Web ¥µ¡¼¥Ð¡¼ÍÑ¤Î°Å¹æ¥µ¥Ý¡¼¥È
-Summary(nb):	Krypteringsstøtte for webtjeneren Apache
-Summary(pl):	Modu³ SSL dla serwera WWW Apache
-Summary(pt):	O suporte de cifra para o servidor Web Apache
-Summary(ru):	íÏÄÕÌØ ÐÏÄÄÅÒÖËÉ SSL × Apache
-Summary(sl):	Podpora za ¹ifriranje za spletni stre¾nik Apache
-Summary(sv):	Kryptografistöd till webbservern Apache
-Summary(uk):	íÏÄÕÌØ Ð¦ÄÔÒÉÍËÉ SSL × Apache
+Summary(cs.UTF-8):   Modul s podporou silnÃ©ho Å¡ifrovÃ¡nÃ­ pro WWW server Apache
+Summary(da.UTF-8):   KrypteringsunderstÃ¸ttelse for webtjeneren Apache
+Summary(de.UTF-8):   SSL-Modul fÃ¼r den Apache-Webserver
+Summary(es.UTF-8):   Soporte criptofrÃ¡fico para el servidor de WWW Apache
+Summary(fr.UTF-8):   Un module SSL pour le serveur Web Apache
+Summary(id.UTF-8):   Interpreter Perl untuk web server Apache
+Summary(is.UTF-8):   Perl tÃºlkur fyrir Apache vefÃ¾jÃ³ninn
+Summary(it.UTF-8):   Supporto di crittografia per il server Web Apache
+Summary(ja.UTF-8):   Apache Web ã‚µãƒ¼ãƒãƒ¼ç”¨ã®æš—å·ã‚µãƒãƒ¼ãƒˆ
+Summary(nb.UTF-8):   KrypteringsstÃ¸tte for webtjeneren Apache
+Summary(pl.UTF-8):   ModuÅ‚ SSL dla serwera WWW Apache
+Summary(pt.UTF-8):   O suporte de cifra para o servidor Web Apache
+Summary(ru.UTF-8):   ÐœÐ¾Ð´ÑƒÐ»ÑŒ Ð¿Ð¾Ð´Ð´ÐµÑ€Ð¶ÐºÐ¸ SSL Ð² Apache
+Summary(sl.UTF-8):   Podpora za Å¡ifriranje za spletni streÅ¾nik Apache
+Summary(sv.UTF-8):   KryptografistÃ¶d till webbservern Apache
+Summary(uk.UTF-8):   ÐœÐ¾Ð´ÑƒÐ»ÑŒ Ð¿Ñ–Ð´Ñ‚Ñ€Ð¸Ð¼ÐºÐ¸ SSL Ð² Apache
 Name:		apache1-mod_%{mod_name}
 Version:	%{SSLVER}_%{APACHEVER}
 Release:	4
@@ -70,82 +70,82 @@ use in the Apache-SSL HTTP server project. The mod_ssl package is
 licensed under a BSD-style licence, which basically means that you are
 free to get and use it for commercial and non-commercial purposes.
 
-%description -l cs
-Modul mod_ssl pro WWW server Apache umo¾òuje pou¾ití silného ¹ifrování
-komunikace klienta (WWW prohlí¾eè) a serveru - SSL (Secure Sockets
+%description -l cs.UTF-8
+Modul mod_ssl pro WWW server Apache umoÅ¾Åˆuje pouÅ¾itÃ­ silnÃ©ho Å¡ifrovÃ¡nÃ­
+komunikace klienta (WWW prohlÃ­Å¾eÄ) a serveru - SSL (Secure Sockets
 Layer) a TLS (Transport Layer Security) protokoly.
 
-%description -l de
-Das mod_ssl-Projekt stellt kryptographie für den Apache 1.3-Webserver
-über Secure Sockets Layer (SSL v2/v3) und Transport Layer Security
-(TLS v1)-Protokolle zur Verfügung. Dazu wird das Open Source
+%description -l de.UTF-8
+Das mod_ssl-Projekt stellt kryptographie fÃ¼r den Apache 1.3-Webserver
+Ã¼ber Secure Sockets Layer (SSL v2/v3) und Transport Layer Security
+(TLS v1)-Protokolle zur VerfÃ¼gung. Dazu wird das Open Source
 SSL/TLS-Toolkit OpenSSL, das auf SSLeay basiert, verwendet.
 
-%description -l es
-El módulo mod_ssl proporciona la criptografía para el servidor Web
+%description -l es.UTF-8
+El mÃ³dulo mod_ssl proporciona la criptografÃ­a para el servidor Web
 Apache, los sockets seguros, los protocolos de la seguridad (SSL) y de
 la capa tranparente (TLS).
 
-%description -l fr
+%description -l fr.UTF-8
 Le projet mod_ssl fournit de la forte cryptographie pour le serveur
 web Apache 1.3 via les protocoles Secure Sockets Layer (SSL v2/v3) et
 Transport Layer Security (TLS v1) avec l'aide du kit d'outils Open
 Source SSL/TLS, OpenSSL, base sur SSLeay d'Eric A. Young et Tim J.
 Hudson.
 
-%description -l it
+%description -l it.UTF-8
 Il modulo mod_ssl fornisce un supporto di crittografia molto potente
 per il server Web Apache tramite i protocolli SSL (Secure Sockets
 Layer) e i protocolli TLS (Transport Layer Security).
 
-%description -l ja
-mod_ssl ¥â¥¸¥å¡¼¥ë¤Ï¡¢SSL (Secure Sockets Layer) ¤ª¤è¤Ó TLS (Transport
-Layer Security) ¥×¥í¥È¥³¥ë¤ò²ð¤·¤Æ Apache Web ¥µ¡¼¥Ð¡¼ÍÑ¤Î¶¯ÎÏ¤Ê°Å¹æ²½
-µ¡Ç½¤òÄó¶¡¤·¤Þ¤¹¡£
+%description -l ja.UTF-8
+mod_ssl ãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«ã¯ã€SSL (Secure Sockets Layer) ãŠã‚ˆã³ TLS (Transport
+Layer Security) ãƒ—ãƒ­ãƒˆã‚³ãƒ«ã‚’ä»‹ã—ã¦ Apache Web ã‚µãƒ¼ãƒãƒ¼ç”¨ã®å¼·åŠ›ãªæš—å·åŒ–
+æ©Ÿèƒ½ã‚’æä¾›ã—ã¾ã™ã€‚
 
-%description -l pl
-Projekt mod_ssl ma za zadanie zapewniæ serwerowi WWW Apache 1.3 wysoki
-poziom szyfrowania dziêki protoko³om Secure Sockets Layer (SSL v2/v3)
-i Transport Layer Security (TLS v1) przy pomocy pakiety narzêdziowego
+%description -l pl.UTF-8
+Projekt mod_ssl ma za zadanie zapewniÄ‡ serwerowi WWW Apache 1.3 wysoki
+poziom szyfrowania dziÄ™ki protokoÅ‚om Secure Sockets Layer (SSL v2/v3)
+i Transport Layer Security (TLS v1) przy pomocy pakiety narzÄ™dziowego
 Open Source SSL/TSL -- OpenSSL, stworzonego na podstawie SSLeay Erica
 A.Younga i Tima J.Hudsona.
 
-%description -l pt
-O módulo mod_ssl oferece uma criptografia robusta para o servidor Web
-Apache através dos protocolos SSL (Secure Sockets Layer) e TLS
+%description -l pt.UTF-8
+O mÃ³dulo mod_ssl oferece uma criptografia robusta para o servidor Web
+Apache atravÃ©s dos protocolos SSL (Secure Sockets Layer) e TLS
 (Transport Layer Security).
 
-%description -l ru
-Apache -- ÍÏÝÎÙÊ Ó×ÏÂÏÄÎÏ ÒÁÓÐÒÏÓÔÒÁÎÑÅÍÙÊ ÓÅÒ×ÅÒ Á ÔÁËÖÅ É ÓÁÍÙÍ
-ÐÏÐÕÌÑÒÎÙÊ × Internet'Å (ÏÎ ÉÓÐÏÌØÚÕÅÔÓÑ ÎÁ ÂÏÌÅÅ, ÞÅÍ 50%% ÓÅÒ×ÅÒÏ× ×
-ÍÉÒÅ). üÔÁ ×ÅÒÓÉÑ ×ËÌÀÞÁÅÔ × ÓÅÂÑ ÐÏÄÄÅÒÖËÕ SSL v2, v3 É TLS v1.
+%description -l ru.UTF-8
+Apache -- Ð¼Ð¾Ñ‰Ð½Ñ‹Ð¹ ÑÐ²Ð¾Ð±Ð¾Ð´Ð½Ð¾ Ñ€Ð°ÑÐ¿Ñ€Ð¾ÑÑ‚Ñ€Ð°Ð½ÑÐµÐ¼Ñ‹Ð¹ ÑÐµÑ€Ð²ÐµÑ€ Ð° Ñ‚Ð°ÐºÐ¶Ðµ Ð¸ ÑÐ°Ð¼Ñ‹Ð¼
+Ð¿Ð¾Ð¿ÑƒÐ»ÑÑ€Ð½Ñ‹Ð¹ Ð² Internet'Ðµ (Ð¾Ð½ Ð¸ÑÐ¿Ð¾Ð»ÑŒÐ·ÑƒÐµÑ‚ÑÑ Ð½Ð° Ð±Ð¾Ð»ÐµÐµ, Ñ‡ÐµÐ¼ 50%% ÑÐµÑ€Ð²ÐµÑ€Ð¾Ð² Ð²
+Ð¼Ð¸Ñ€Ðµ). Ð­Ñ‚Ð° Ð²ÐµÑ€ÑÐ¸Ñ Ð²ÐºÐ»ÑŽÑ‡Ð°ÐµÑ‚ Ð² ÑÐµÐ±Ñ Ð¿Ð¾Ð´Ð´ÐµÑ€Ð¶ÐºÑƒ SSL v2, v3 Ð¸ TLS v1.
 
-%description -l sv
-Modulen mod_ssl förser webbservern Apache med stark kryptografi via
+%description -l sv.UTF-8
+Modulen mod_ssl fÃ¶rser webbservern Apache med stark kryptografi via
 protokollen SSL (Secure Sockets Layer) och TLS (Transport Layer
 Security).
 
-%description -l uk
-Apache -- ÐÏÔÕÖÎÉÊ ×¦ÌØÎÏ ÒÏÚÐÏ×ÓÀÄÖÕ×ÁÎÉÊ ÓÅÒ×ÅÒ HTTP. ãÅ
-ÎÁÊÐÏÐÕÌÑÒÎ¦ÛÉÊ ÓÅÒ×ÅÒ Õ Ó×¦Ô¦ (×ÉËÏÒÉÓÔÏ×Õ¤ÔØÓÑ Â¦ÌØÛ ÑË ÎÁ 50%%
-ÓÅÒ×ÅÒ¦×). ãÑ ×ÅÒÓ¦Ñ Í¦ÓÔÉÔØ Ð¦ÄÔÒÉÍËÕ SSL v2, v3 ÔÁ TLS v1.
+%description -l uk.UTF-8
+Apache -- Ð¿Ð¾Ñ‚ÑƒÐ¶Ð½Ð¸Ð¹ Ð²Ñ–Ð»ÑŒÐ½Ð¾ Ñ€Ð¾Ð·Ð¿Ð¾Ð²ÑÑŽÐ´Ð¶ÑƒÐ²Ð°Ð½Ð¸Ð¹ ÑÐµÑ€Ð²ÐµÑ€ HTTP. Ð¦Ðµ
+Ð½Ð°Ð¹Ð¿Ð¾Ð¿ÑƒÐ»ÑÑ€Ð½Ñ–ÑˆÐ¸Ð¹ ÑÐµÑ€Ð²ÐµÑ€ Ñƒ ÑÐ²Ñ–Ñ‚Ñ– (Ð²Ð¸ÐºÐ¾Ñ€Ð¸ÑÑ‚Ð¾Ð²ÑƒÑ”Ñ‚ÑŒÑÑ Ð±Ñ–Ð»ÑŒÑˆ ÑÐº Ð½Ð° 50%%
+ÑÐµÑ€Ð²ÐµÑ€Ñ–Ð²). Ð¦Ñ Ð²ÐµÑ€ÑÑ–Ñ Ð¼Ñ–ÑÑ‚Ð¸Ñ‚ÑŒ Ð¿Ñ–Ð´Ñ‚Ñ€Ð¸Ð¼ÐºÑƒ SSL v2, v3 Ñ‚Ð° TLS v1.
 
 %package devel
 Summary:	Header files for mod_ssl
-Summary(pl):	Pliki nag³ówkowe dla mod_ssl
+Summary(pl.UTF-8):   Pliki nagÅ‚Ã³wkowe dla mod_ssl
 Group:		Development/Building
 Requires:	apache1-devel >= %{APACHEVER}
 
 %description devel
 Header files for mod_ssl.
 
-%description devel -l pl
-Pliki nag³ówkowe dla mod_ssl.
+%description devel -l pl.UTF-8
+Pliki nagÅ‚Ã³wkowe dla mod_ssl.
 
 %package -n apache1-mod_sxnet
 Summary:	Strong Extranet module for mod_ssl and apache
-Summary(fr):	Module d'Extranet Fort pour Apache et mod_ssl
-Summary(pl):	Modu³ Strong Extranet dla pakietu mod_ssl i serwera WWW Apache
+Summary(fr.UTF-8):   Module d'Extranet Fort pour Apache et mod_ssl
+Summary(pl.UTF-8):   ModuÅ‚ Strong Extranet dla pakietu mod_ssl i serwera WWW Apache
 Group:		Networking/Daemons
 Requires(triggerpostun):	grep
 Requires(triggerpostun):	sed >= 4.0
@@ -158,16 +158,16 @@ authenticate users on your web server. Typically, your users enroll in
 your Strong Extranet, under your control, through the Thawte Personal
 Cert System.
 
-%description -n apache1-mod_sxnet -l fr
+%description -n apache1-mod_sxnet -l fr.UTF-8
 L'Extranet Fort vous permet d'utiliser des certificats numeriques pour
 authentifier les usagers sur votre serveur web. Typiquement, vos
 usagers s'enrolent dans votre Extranet Fort, sous votre controle, a
 travers le Thawte Personal Cert System.
 
-%description -n apache1-mod_sxnet -l pl
-Pakiet Strong Extranet umo¿liwia u¿ywanie cyfrowych certyfikatów dla
-uwierzytelniania u¿ytkowników serwera WWW. Zwykle u¿ytkownicy
-rejestruj± siê pod opiek± administratora poprzez Thawte Personal Cert
+%description -n apache1-mod_sxnet -l pl.UTF-8
+Pakiet Strong Extranet umoÅ¼liwia uÅ¼ywanie cyfrowych certyfikatÃ³w dla
+uwierzytelniania uÅ¼ytkownikÃ³w serwera WWW. Zwykle uÅ¼ytkownicy
+rejestrujÄ… siÄ™ pod opiekÄ… administratora poprzez Thawte Personal Cert
 System.
 
 %prep
