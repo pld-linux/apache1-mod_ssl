@@ -35,7 +35,7 @@ Patch1:		mod_%{mod_name}-cca-openssl-path.patch
 Patch2:		mod_%{mod_name}-db3.patch
 Patch3:		%{name}-nohttpd.patch
 URL:		http://www.modssl.org/
-BuildRequires:	%{apxs}
+BuildRequires:	apache1-apxs
 BuildRequires:	apache1-devel = %{APACHEVER}
 BuildRequires:	db-devel >= 4.1
 BuildRequires:	openssl-devel >= 0.9.7d
