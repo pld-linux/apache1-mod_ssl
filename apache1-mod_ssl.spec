@@ -51,6 +51,7 @@ Requires:	apache1-mod_setenvif
 Provides:	apache(mod_ssl) = %{version}-%{release}
 Obsoletes:	apache-mod_ssl < 2
 Obsoletes:	mod_ssl
+Conflicts:	logrotate < 3.7.4
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_pkglibdir	%(%{apxs} -q LIBEXECDIR 2>/dev/null)
