@@ -6,7 +6,7 @@
      apache=$APXS_PREFIX
 -    APV=`$APXS_SBINDIR/$APXS_TARGET -v | grep "Server version:" |\
 -         sed -e 's;^.*Apache/;;' -e 's; .*$;;'`
-+    APV="1.3.37"
++    APV="@APACHE_VERSION@"
  else
      if [ ! -f "$apache/src/include/httpd.h" ]; then
          echo "$0:${T_MD}Error${T_ME}: Cannot find Apache 1.3 source tree under $apache" 1>&2
