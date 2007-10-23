@@ -1,5 +1,5 @@
-%define		SSLVER		2.8.28
-%define		APACHEVER	1.3.37
+%define		SSLVER		2.8.30
+%define		APACHEVER	1.3.39
 %define		apxs		/usr/sbin/apxs1
 %define		mod_name	ssl
 Summary:	An SSL module for the Apache Web server
@@ -21,11 +21,11 @@ Summary(sv.UTF-8):	Kryptografistöd till webbservern Apache
 Summary(uk.UTF-8):	Модуль підтримки SSL в Apache
 Name:		apache1-mod_%{mod_name}
 Version:	%{SSLVER}_%{APACHEVER}
-Release:	4
+Release:	1
 License:	BSD
 Group:		Networking/Daemons
 Source0:	http://www.modssl.org/source/mod_%{mod_name}-%{SSLVER}-%{APACHEVER}.tar.gz
-# Source0-md5:	5e9486a86fcd4efef395f58fd795aaea
+# Source0-md5:	66c1ad26954cb1abe59b42dab54d2cd1
 Source1:	%{name}.conf
 Source2:	%{name}-server.crt
 Source3:	%{name}-server.key
@@ -35,7 +35,6 @@ Patch1:		mod_%{mod_name}-cca-openssl-path.patch
 Patch2:		mod_%{mod_name}-db3.patch
 Patch3:		%{name}-nohttpd.patch
 URL:		http://www.modssl.org/
-BuildRequires:	apache1-apxs
 BuildRequires:	apache1-devel = %{APACHEVER}
 BuildRequires:	db-devel >= 4.1
 BuildRequires:	openssl-devel >= 0.9.7d
@@ -177,10 +176,9 @@ System.
 %patch2 -p1
 %patch3 -p1
 
-%{__perl} -pi -e 's@ /lib /usr/lib @ /%{_lib} /usr/%{_lib} @' pkg.sslmod/libssl.module
-
-cd pkg.contrib
-tar xvf sxnet.tar
+%{__sed} -i -e 's@ /lib /usr/lib @ /%{_lib} /usr/%{_lib} @' pkg.sslmod/libssl.module
+%{__sed} -i -e 's,@APACHE_VERSION@,%{APACHEVER},' configure
+%{__tar} -C pkg.contrib -xf pkg.contrib/sxnet.tar
 
 %build
 SSL_BASE=SYSTEM; export SSL_BASE
