@@ -1,13 +1,9 @@
-/var/log/apache/ssl_engine_log {
+/var/log/apache/ssl_engine_log
+/var/log/apache/ssl_request_log
+{
+	sharedscripts
     olddir /var/log/archive/apache
     postrotate
-	/bin/killall -HUP apache
-    endscript
-}
-
-/var/log/apache/ssl_request_log {
-    olddir /var/log/archive/apache
-    postrotate
-	/bin/killall -HUP apache
+		/sbin/service apache flush-logs > /dev/null
     endscript
 }
