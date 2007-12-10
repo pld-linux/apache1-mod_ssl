@@ -21,7 +21,7 @@ Summary(sv.UTF-8):	Kryptografistöd till webbservern Apache
 Summary(uk.UTF-8):	Модуль підтримки SSL в Apache
 Name:		apache1-mod_%{mod_name}
 Version:	%{SSLVER}_%{APACHEVER}
-Release:	2
+Release:	3
 License:	BSD
 Group:		Networking/Daemons
 Source0:	http://www.modssl.org/source/mod_%{mod_name}-%{SSLVER}-%{APACHEVER}.tar.gz
@@ -30,7 +30,6 @@ Source1:	%{name}.conf
 Source2:	%{name}-server.crt
 Source3:	%{name}-server.key
 Source4:	%{name}-sxnet.html
-Source5:	%{name}.logrotate
 Patch1:		mod_%{mod_name}-cca-openssl-path.patch
 Patch2:		mod_%{mod_name}-db3.patch
 Patch3:		%{name}-nohttpd.patch
@@ -50,7 +49,6 @@ Requires:	apache1-mod_setenvif
 Provides:	apache(mod_ssl) = %{version}-%{release}
 Obsoletes:	apache-mod_ssl < 2
 Obsoletes:	mod_ssl
-Conflicts:	logrotate < 3.7-4
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_pkglibdir	%(%{apxs} -q LIBEXECDIR 2>/dev/null)
@@ -196,8 +194,7 @@ cd pkg.contrib/sxnet
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_libdir}/mod_%{mod_name},%{_pkglibdir},%{_pkglogdir}} \
 	$RPM_BUILD_ROOT%{_includedir}/apache1 \
-	$RPM_BUILD_ROOT%{_sysconfdir}/conf.d \
-	$RPM_BUILD_ROOT/etc/logrotate.d
+	$RPM_BUILD_ROOT%{_sysconfdir}/conf.d
 
 install pkg.sslmod/libssl.so $RPM_BUILD_ROOT%{_pkglibdir}
 install pkg.contrib/sxnet/mod_sxnet.so $RPM_BUILD_ROOT%{_pkglibdir}
@@ -206,7 +203,6 @@ install pkg.contrib/*.sh $RPM_BUILD_ROOT%{_libdir}/mod_%{mod_name}
 install %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/conf.d/40_mod_%{mod_name}.conf
 install %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/server.crt
 install %{SOURCE3} $RPM_BUILD_ROOT%{_sysconfdir}/server.key
-install %{SOURCE5} $RPM_BUILD_ROOT/etc/logrotate.d/apache1-mod_%{mod_name}
 
 cp -a pkg.ssldoc ssl-doc
 
@@ -262,7 +258,6 @@ fi
 %attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/conf.d/*_mod_ssl.conf
 %attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/server.crt
 %attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/server.key
-%attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) /etc/logrotate.d/*
 %attr(640,root,root) %ghost %{_pkglogdir}/*
 
 %attr(755,root,root) %{_pkglibdir}/libssl.so
