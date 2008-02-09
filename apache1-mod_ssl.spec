@@ -1,5 +1,5 @@
-%define		SSLVER		2.8.30
-%define		APACHEVER	1.3.39
+%define		SSLVER		2.8.31
+%define		APACHEVER	1.3.41
 %define		apxs		/usr/sbin/apxs1
 %define		mod_name	ssl
 Summary:	An SSL module for the Apache Web server
@@ -21,11 +21,11 @@ Summary(sv.UTF-8):	Kryptografistöd till webbservern Apache
 Summary(uk.UTF-8):	Модуль підтримки SSL в Apache
 Name:		apache1-mod_%{mod_name}
 Version:	%{SSLVER}_%{APACHEVER}
-Release:	5
+Release:	1
 License:	BSD
 Group:		Networking/Daemons
 Source0:	http://www.modssl.org/source/mod_%{mod_name}-%{SSLVER}-%{APACHEVER}.tar.gz
-# Source0-md5:	66c1ad26954cb1abe59b42dab54d2cd1
+# Source0-md5:	4d55fc5c7cbf38820b44edf767f571c4
 Source1:	%{name}.conf
 Source2:	%{name}-server.crt
 Source3:	%{name}-server.key
@@ -54,7 +54,7 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_pkglibdir	%(%{apxs} -q LIBEXECDIR 2>/dev/null)
 %define		_sysconfdir	%(%{apxs} -q SYSCONFDIR 2>/dev/null)
-%define		_pkglogdir	%(%{apxs} -q PREFIX 2>/dev/null)/logs
+%define		_pkglogdir	/var/log/apache
 
 %description
 The mod_ssl project provides strong cryptography for the Apache 1.3
@@ -255,7 +255,7 @@ fi
 
 %files
 %defattr(644,root,root,755)
-%doc ANNOUNCE CHANGES CREDITS NEWS README* ssl-doc
+%doc ANNOUNCE CHANGES CREDITS LICENSE NEWS README* ssl-doc
 %attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/conf.d/*_mod_ssl.conf
 %attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/server.crt
 %attr(640,root,root) %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/server.key
