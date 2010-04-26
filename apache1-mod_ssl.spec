@@ -34,7 +34,7 @@ Patch1:		mod_%{mod_name}-cca-openssl-path.patch
 Patch2:		mod_%{mod_name}-db3.patch
 Patch3:		%{name}-nohttpd.patch
 URL:		http://www.modssl.org/
-BuildRequires:	apache1-devel = %{APACHEVER}
+BuildRequires:	apache1-devel >= %{APACHEVER}
 BuildRequires:	db-devel >= 4.1
 BuildRequires:	openssl-devel >= 0.9.7d
 BuildRequires:	openssl-tools >= 0.9.7d
@@ -43,7 +43,6 @@ BuildRequires:	sed >= 4.0
 Requires(triggerpostun):	grep
 Requires(triggerpostun):	sed >= 4.0
 Requires:	apache1-base >= %{APACHEVER}
-Requires:	apache1-base >= 1.3.39-5
 # see the config
 Requires:	apache1-mod_log_config
 Requires:	apache1-mod_setenvif
@@ -197,17 +196,17 @@ install -d $RPM_BUILD_ROOT{%{_libdir}/mod_%{mod_name},%{_pkglibdir},%{_pkglogdir
 	$RPM_BUILD_ROOT%{_includedir}/apache1 \
 	$RPM_BUILD_ROOT%{_sysconfdir}/conf.d
 
-install pkg.sslmod/libssl.so $RPM_BUILD_ROOT%{_pkglibdir}
-install pkg.contrib/sxnet/mod_sxnet.so $RPM_BUILD_ROOT%{_pkglibdir}
+install -p pkg.sslmod/libssl.so $RPM_BUILD_ROOT%{_pkglibdir}
+install -p pkg.contrib/sxnet/mod_sxnet.so $RPM_BUILD_ROOT%{_pkglibdir}
 
-install pkg.contrib/*.sh $RPM_BUILD_ROOT%{_libdir}/mod_%{mod_name}
-install %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/conf.d/40_mod_%{mod_name}.conf
-install %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/server.crt
-install %{SOURCE3} $RPM_BUILD_ROOT%{_sysconfdir}/server.key
+install -p pkg.contrib/*.sh $RPM_BUILD_ROOT%{_libdir}/mod_%{mod_name}
+cp -a %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/conf.d/40_mod_%{mod_name}.conf
+cp -a %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/server.crt
+cp -a %{SOURCE3} $RPM_BUILD_ROOT%{_sysconfdir}/server.key
 
 cp -a pkg.ssldoc ssl-doc
 
-install %{SOURCE4} sxnet.html
+cp -a %{SOURCE4} sxnet.html
 echo 'LoadModule sxnet_module	modules/mod_sxnet.so' > \
 	$RPM_BUILD_ROOT%{_sysconfdir}/conf.d/90_mod_sxnet.conf
 
