@@ -21,7 +21,7 @@ Summary(sv.UTF-8):	Kryptografistöd till webbservern Apache
 Summary(uk.UTF-8):	Модуль підтримки SSL в Apache
 Name:		apache1-mod_%{mod_name}
 Version:	%{SSLVER}_%{APACHEVER}
-Release:	4
+Release:	5
 License:	BSD
 Group:		Networking/Daemons
 Source0:	http://www.modssl.org/source/mod_%{mod_name}-%{SSLVER}-%{APACHEVER}.tar.gz
@@ -33,6 +33,7 @@ Source4:	%{name}-sxnet.html
 Patch1:		mod_%{mod_name}-cca-openssl-path.patch
 Patch2:		mod_%{mod_name}-db3.patch
 Patch3:		%{name}-nohttpd.patch
+Patch4:		openssl.patch
 URL:		http://www.modssl.org/
 BuildRequires:	apache1-devel >= %{APACHEVER}
 BuildRequires:	db-devel >= 4.1
@@ -170,16 +171,17 @@ System.
 
 %prep
 %setup -q -n mod_%{mod_name}-%{SSLVER}-%{APACHEVER}
+%{__tar} -C pkg.contrib -xf pkg.contrib/sxnet.tar
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 
 %{__sed} -i -e 's@ /lib /usr/lib @ /%{_lib} /usr/%{_lib} @' pkg.sslmod/libssl.module
 %{__sed} -i -e 's,@APACHE_VERSION@,%{APACHEVER},' configure
-%{__tar} -C pkg.contrib -xf pkg.contrib/sxnet.tar
 
 %build
-SSL_BASE=SYSTEM; export SSL_BASE
+export SSL_BASE=SYSTEM
 %configure \
 	--with-apxs=%{apxs} \
 	--enable-shared=ssl \
