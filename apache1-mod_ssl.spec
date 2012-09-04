@@ -21,7 +21,7 @@ Summary(sv.UTF-8):	Kryptografistöd till webbservern Apache
 Summary(uk.UTF-8):	Модуль підтримки SSL в Apache
 Name:		apache1-mod_%{mod_name}
 Version:	%{SSLVER}_%{APACHEVER}
-Release:	5
+Release:	6
 License:	BSD
 Group:		Networking/Daemons
 Source0:	http://www.modssl.org/source/mod_%{mod_name}-%{SSLVER}-%{APACHEVER}.tar.gz
