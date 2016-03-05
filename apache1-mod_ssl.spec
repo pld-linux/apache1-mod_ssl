@@ -21,7 +21,7 @@ Summary(sv.UTF-8):	Kryptografistöd till webbservern Apache
 Summary(uk.UTF-8):	Модуль підтримки SSL в Apache
 Name:		apache1-mod_%{mod_name}
 Version:	%{SSLVER}_%{APACHEVER}
-Release:	8
+Release:	9
 License:	BSD
 Group:		Networking/Daemons
 Source0:	http://www.modssl.org/source/mod_%{mod_name}-%{SSLVER}-%{APACHEVER}.tar.gz
@@ -50,6 +50,7 @@ Requires:	apache1-mod_setenvif
 Provides:	apache(mod_ssl) = %{version}-%{release}
 Obsoletes:	apache-mod_ssl < 2
 Obsoletes:	mod_ssl
+%requires_ge_to	openssl	openssl-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_pkglibdir	%(%{apxs} -q LIBEXECDIR 2>/dev/null)
@@ -212,7 +213,7 @@ cp -a %{SOURCE4} sxnet.html
 echo 'LoadModule sxnet_module	modules/mod_sxnet.so' > \
 	$RPM_BUILD_ROOT%{_sysconfdir}/conf.d/90_mod_sxnet.conf
 
-install pkg.sslmod/*.h $RPM_BUILD_ROOT%{_includedir}/apache1
+cp -p pkg.sslmod/*.h $RPM_BUILD_ROOT%{_includedir}/apache1
 
 > $RPM_BUILD_ROOT%{_pkglogdir}/ssl_engine_log
 > $RPM_BUILD_ROOT%{_pkglogdir}/ssl_request_log
