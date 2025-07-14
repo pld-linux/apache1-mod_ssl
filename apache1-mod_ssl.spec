@@ -173,10 +173,10 @@ System.
 %prep
 %setup -q -n mod_%{mod_name}-%{SSLVER}-%{APACHEVER}
 %{__tar} -C pkg.contrib -xf pkg.contrib/sxnet.tar
-%patch1 -p1
-%patch2 -p1
-%patch3 -p1
-%patch4 -p1
+%patch -P1 -p1
+%patch -P2 -p1
+%patch -P3 -p1
+%patch -P4 -p1
 
 %{__sed} -i -e 's@ /lib /usr/lib @ /%{_lib} /usr/%{_lib} @' pkg.sslmod/libssl.module
 %{__sed} -i -e 's,@APACHE_VERSION@,%{APACHEVER},' configure
